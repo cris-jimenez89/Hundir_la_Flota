@@ -1,3 +1,4 @@
+
 import numpy as np
 import random
 import winsound
@@ -12,6 +13,7 @@ class Tablero:
         self.posiciones 
         self.tipos_barcos 
         self.posiciones_probadas 
+        
         
     
     def colocar_barcos(self):
