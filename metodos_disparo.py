@@ -81,7 +81,8 @@ class Tablero:
             self.numero_impactos = self.numero_impactos + 1
             print("LLEVAMOS",self.numero_impactos)
             return[pos,"X"]
-            
+
+
 
             
         
