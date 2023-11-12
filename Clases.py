@@ -156,6 +156,52 @@ class Tablero:
         else:
             return 'n'
 
+    def disparar_cerca_impacto(self):
+        posiciones_cercanas = self.posiciones_cerca_impacto(self.posicionesEnemigas[0])
+        if posiciones_cercanas != []:
+            posicion = posiciones_cercanas.pop()
+            self.posiciones_probadas.append(posicion)
+            return posicion
+        else:
+            return self.disparar_random()
+
+    def disparar_cerca_dir_h(self,posiciones_cercanas,impacto1):
+        '''
+        
+        '''
+        
+        posiciones_cercanas_h = []
+        posx = impacto1[0]
+        for i in posiciones_cercanas:
+            if(posx == i[0]):
+                posiciones_cercanas_h.append(i)
+            # añadir aqui resto de elementos con radio hasta 4 en posy de impacto1
+            # hacer lo mismo en cerca_v
+            if(len(posiciones_cercanas_h) != 0):
+                    posicion = posiciones_cercanas_h.pop()
+                    self.posiciones_probadas(posicion)
+                    return posicion
+            else:
+                return self.disparar_random() 
+
+    def disparar_cerca_dir_v(self,posiciones_cercanas,impacto1):
+        '''
+        
+        '''
+        
+        posiciones_cercanas_v = []
+        posy = impacto1[1]
+        for i in posiciones_cercanas:
+            if(posy == i[1]):
+                posiciones_cercanas_v.append(i)
+            
+            if(len(posiciones_cercanas_v) != 0):
+                posicion = posiciones_cercanas_v.pop()
+                self.posiciones_probadas(posicion)
+                return posicion
+            else:
+                return self.disparar_random() 
+
     def disparar_cpu_inteligente(self):
         '''
         Dispara de forma inteligente
@@ -164,8 +210,8 @@ class Tablero:
                   disparar_random, calcular_direccion
         '''
         ic("disparar_cpu_inteligente")
-        posiciones_cercanas_h = []
-        posiciones_cercanas_v = []
+        
+        
         self.posicionesEnemigas = self.posiciones_de_('X')
         if (self.posicionesEnemigas == []):
             ic("dispara random no hay impacto previo")
@@ -173,42 +219,18 @@ class Tablero:
         else:
             if(len(self.posicionesEnemigas) == 1):
                 ic("hay un impacto")
-                posiciones_cercanas = self.posiciones_cerca_impacto(self.posicionesEnemigas[0])
-                if posiciones_cercanas != []:
-                    posicion = posiciones_cercanas.pop()
-                    self.posiciones_probadas.append(posicion)
-                    return posicion
-                else:
-                    return self.disparar_random() 
+                return self.disparar_cerca_impacto()
             else:
                #existen 2 impactos
                impacto1 = self.posicionesEnemigas[-1]
                impacto2 = self.posicionesEnemigas[-2]
                direccion = self.calcular_direccion(impacto1,impacto2)
-               posx = impacto1[0]
-               posy = impacto1[1]
+               
                posiciones_cercanas = self.posiciones_cerca_impacto(impacto1)
                if(direccion == 'n'):
                    return self.disparar_random()
                elif(direccion == 'h'):
-                   for i in posiciones_cercanas:
-                       if(posx == i[0]):
-                           posiciones_cercanas_h.append(i)
-                   if(len(posiciones_cercanas_h) != 0):
-                        posicion = posiciones_cercanas_h.pop()
-                        self.posiciones_probadas(posicion)
-                        return posicion
-                   else:
-                       return self.disparar_random()
+                   return self.disparar_cerca_dir_h(posiciones_cercanas,impacto1)
                else:
-                    #
-                    for j in posiciones_cercanas:
-                        if(posy == j[1]):
-                            posiciones_cercanas_v.append(j)
-                    if(len(posiciones_cercanas_v) != 0):
-                        posicion = posiciones_cercanas_v.pop()
-                        self.posiciones_probadas(posicion)
-                        return posicion
-                    else:
-                        return self.disparar_random()
+                   return self.disparar_cerca_dir_v(posiciones_cercanas,impacto1)
                         
