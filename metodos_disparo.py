@@ -70,17 +70,17 @@ class Tablero:
          Si hay un barco, marca la posición como tocada (X) y actualiza el número de impactos.
         Si no hay un barco, marca la posición como agua.
         Entrada: POS (UNA TUPLA): Una tupla que contiene las coordenadas (fila, columna) del impacto.
-        Salida: Una lista que contiene la posición del impacto y el resultado del mismo.
+        Salida: Una tupla que contiene la posición del impacto y el resultado del mismo.
             La posición es una tupla (fila, columna) y el resultado es "O" para agua o "X" para impacto.'''
         ic("analizamos resultado de disparo y actualizamos el numero de impactos que quedan para ganar")
         if (self.tablero_barcos[pos[0]][pos[1]] == "~"):
             print("AGUA")
-            return[pos,"O"]
+            return (pos,"O")
         else:
             print("TOCADO")
             self.numero_impactos = self.numero_impactos + 1
             print("LLEVAMOS",self.numero_impactos)
-            return[pos,"X"]
+            return(pos,"X")
 
 
 
