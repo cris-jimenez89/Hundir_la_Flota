@@ -157,6 +157,11 @@ class Tablero:
             return 'n'
 
     def disparar_cerca_impacto(self):
+        '''
+        Dispara a una de las posiciones posibles cercanas al impacto existente
+        output: posicion:tupla
+        relacion: disparar_random
+        '''
         posiciones_cercanas = self.posiciones_cerca_impacto(self.posicionesEnemigas[0])
         if posiciones_cercanas != []:
             posicion = posiciones_cercanas.pop()
@@ -167,7 +172,10 @@ class Tablero:
 
     def disparar_cerca_dir_h(self,posiciones_cercanas,impacto1):
         '''
-        
+        Dispara cerca de la posicion y solo en direccion horizontal
+        input: posiciones_cercanas:lista de tuplas posicion, impacto: tupla
+        output: posicion:tupla
+        relacion: disparar_random
         '''
         
         posiciones_cercanas_h = []
@@ -186,9 +194,12 @@ class Tablero:
 
     def disparar_cerca_dir_v(self,posiciones_cercanas,impacto1):
         '''
-        
+        Dispara cerca de la posicion y solo en direccion vertical
+        input: posiciones_cercanas:lista de tuplas posicion, impacto: tupla
+        output: posicion:tupla
+        relacion: disparar_random
         '''
-        
+
         posiciones_cercanas_v = []
         posy = impacto1[1]
         for i in posiciones_cercanas:
