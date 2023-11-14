@@ -19,7 +19,9 @@ class Juego:
         #iniciacion de pantalla
         # Inicializar pygame
         pygame.init()
-        self.pantalla = pygame.display.set_mode((c.ANCHO, c.ALTO))   
+        self.pantalla = pygame.display.set_mode((c.ANCHO, c.ALTO))
+        jugador1 = Tablero()
+        jugador2 = Tablero()   
 
     def iniciar_juego(self):
         '''
@@ -37,7 +39,7 @@ class Juego:
                   pintar_taablero2, winsound.Playsound,
                   dibujar_tablero
         '''
-        pass  
+        pass  # AQUI VA EL BUCLE DEL JUEGO
 
 
     def dibujar_tablero(self,tablero, posicionesHundidas,x, y, mensaje):
@@ -98,13 +100,13 @@ class Juego:
           except Exception:
              print("introduzca (s/n)")
     
-    def main():
-        condicion = True
-        while (condicion):
-            mi_juego = Juego()
-            mi_juego.iniciar_juego()
-            mi_juego.jugar()
-            condicion = mi_juego.jugar_otra_vez()
+def main():
+    condicion = True
+    while (condicion):
+        mi_juego = Juego()
+        mi_juego.iniciar_juego()
+        mi_juego.jugar()
+        condicion = mi_juego.jugar_otra_vez()
 
-    if __name__ == "__main__":
+if __name__ == "__main__":
         main()
