@@ -68,7 +68,7 @@ class Tablero:
                 print("Disparo en posición ya marcada")
             
         else: 
-            ic("HABRA QUE LLAMAR OTRA VEZ A LA FUNCION O USAR UN BUCLE WHILE TRUE")
+            ic("HABRA QUE LLAMAR OTRA VEZ A LA FUNCION O USAR UN BUCLE WHILE TRUE PARA QUE NO PARE DE BUSCAR COORDENADAS HASTA QUE SEAN VALIDAS")
             print("COORDENADAS ERRONEAS, INGRESE VALORES VALIDOS ENTRE 0 Y 9")
            
     

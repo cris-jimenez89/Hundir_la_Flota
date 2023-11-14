@@ -24,7 +24,7 @@ while True:
     if ( turno == 1):
         ic("Empieza J1, DISPARO A JUGADOR 2")
         print("J1 dispara")
-        disparoJ1 = J1.disparar() # Usamos funcion def disparar() contra J2
+        disparoJ1 = J1.disparar_ELEGIDO() # Usamos funcion def disparar_ELEGIDO() contra J2(ACTUALIZACION)
         print("DISPARO A ", disparoJ1)
         resultado = J2.recibir_impacto(disparoJ1)
         ic("USAMOS LA POSICION DEL DISPARO PARA COMPROBAR SI HA HABIDO IMPACTO EN EL TABLERO DE J2")
