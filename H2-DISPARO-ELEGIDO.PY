@@ -1,7 +1,7 @@
 # MODIFICAMOS EL METODO DE DISPARO, PARA PODER ELEGIR COORDENADAS (podemos o bien poner 
 # que las introduzca por inputs o como argumentos en el metodo (self,fila,columna))
 def disparar_ELEGIDO(self): # O AÑADIR (SELF,FILA, COLUMNA)
-        '''Realiza un disparo en el juego, en un primer momento de forma aleatoria
+        '''Realiza un disparo en el juego, en esta ocación eligiendo las coordenadas.
         Entrada: No tiene
         Return: Posicion disparo, coordenadas en filas y columnas, tupla de int''' 
         ic("Disparar, pero esta vez ELIGIENDO COORDENADAS a un punto del tablero")
