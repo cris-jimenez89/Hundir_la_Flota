@@ -19,7 +19,25 @@ class Juego:
         #iniciacion de pantalla
         # Inicializar pygame
         pygame.init()
-        self.pantalla = pygame.display.set_mode((c.ANCHO, c.ALTO))      
+        self.pantalla = pygame.display.set_mode((c.ANCHO, c.ALTO))   
+
+    def iniciar_juego(self):
+        '''
+        Genera la flota para ambos jugadores
+        relacion: generar_flota
+        '''
+        pass
+
+    def jugar(self):
+        '''
+        En el tiene lugar la logica del juego controlando el turno y las
+        acciones de los jugadores
+        relacion: jugador.disparar, jugador.marcar_resultado_disparo,
+                  pintar_tablero1, comprobar_estado_derrotado,
+                  pintar_taablero2, winsound.Playsound,
+                  dibujar_tablero
+        '''
+        pass  
 
 
     def dibujar_tablero(self,tablero, posicionesHundidas,x, y, mensaje):
@@ -43,8 +61,10 @@ class Juego:
                     pygame.draw.rect(self.pantalla, c.VERDE, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
                 elif tablero[i][j] == 'O':
                     pygame.draw.rect(self.pantalla, c.NEGRO, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
-                else:
+                elif tablero[i][j] == '~':
                     pygame.draw.rect(self.pantalla, c.AZUL, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
+                else: #Hay una "B", pinta gris porque es un barco
+                    pygame.draw.rect(self.pantalla, c.GRIS, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
                 # Dibujar celdas y bordes de celda
                 if((i,j) in posicionesHundidas):
                     pygame.draw.rect(self.pantalla, c.ROJO, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
