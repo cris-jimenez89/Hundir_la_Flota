@@ -1,16 +1,18 @@
 import numpy as np
 import random
+import pygame
 import winsound
 from icecream import ic
+import constantes as c
 
 class Tablero:
     
     
     def __init__(self) -> None:
-        global TAM = 10
+        
         self.numero_impactos = 0 
-        self.tablero_barcos  = np.array([["~" for i in range(TAM)] for j in range(TAM)])
-        self.tablero_jugadas = np.array([["~" for i in range(TAM)] for j in range(TAM)])
+        self.tablero_barcos  = np.array([["~" for i in range(c.TAM)] for j in range(c.TAM)])
+        self.tablero_jugadas = np.array([["~" for i in range(c.TAM)] for j in range(c.TAM)])
         self.posiciones = [[(0,2)],[(1,1)],[(3,6)],[(9,5)],
                       [(2,7),(2,8)],[(3,3),(3,4)],[(5,5),(6,5)],
                       [(7,0),(8,0),(9,0)],[(6,8),(7,8),(8,8)],
@@ -28,6 +30,43 @@ class Tablero:
 
     def pintar_tablero_jugadas(self):
         pass
+
+    def dibujar_tablero(self,tablero, posicionesHundidas,x, y, mensaje):
+        '''
+        Pinta el tablero en pantalla
+        '''
+        # Dibujar etiqueta del tablero
+        fuente = pygame.font.Font(None, 36)
+        texto = fuente.render(mensaje, True, self.NEGRO)
+        texto_rect = texto.get_rect(center=(x + self.TAM_CASILLA * 5, y - 30))
+        self.pantalla.blit(texto, texto_rect)
+
+        # Dibujar números de fila
+        for i in range(10):
+            num_fila = fuente.render(str(i), True, self.NEGRO)
+            self.pantalla.blit(num_fila, (x - 30, y + i * self.TAM_CASILLA + 5))
+
+            for j in range(10):
+           
+                if tablero[i][j] == 'X':
+                    pygame.draw.rect(self.pantalla, self.VERDE, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA))
+                elif tablero[i][j] == 'O':
+                    pygame.draw.rect(self.pantalla, self.NEGRO, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA))
+                else:
+                    pygame.draw.rect(self.pantalla, self.AZUL, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA))
+                # Dibujar celdas y bordes de celda
+                if((i,j) in posicionesHundidas):
+                    pygame.draw.rect(self.pantalla, self.ROJO, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA))
+                pygame.draw.rect(self.pantalla, self.BLANCO, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA), 1)
+    
+        # Dibujar bordes del tablero
+        pygame.draw.rect(self.pantalla, self.NEGRO, (x, y, self.TAM_CASILLA * 10, self.TAM_CASILLA * 10), 3)
+        # Dibujar números de columna
+        for j in range(10):
+            num_columna = fuente.render(str(j), True, self.NEGRO)
+            mi_juego.pantalla.blit(num_columna, (x + j * self.TAM_CASILLA + 5, y + self.TAM_CASILLA * 10 + 5))
+
+
 
     def pintar_barco(self,posiciones):
         pass
@@ -51,8 +90,8 @@ class Tablero:
         '''
         ic("posiciones_de")
         posiciones = []
-        for i in range(TAM):
-            for j in range(TAM):
+        for i in range(c.TAM):
+            for j in range(c.TAM):
                 if(self.tablero_jugadas[i][j] == c ):
                     posiciones.append((i,j))
         return posiciones
@@ -71,12 +110,12 @@ class Tablero:
                     posiciones.append((0,1))
                 if (self.tablero_barcos[0][1] == '~'):
                     posiciones.append((1,0))
-            elif (pos == (0,9)):
-                if (self.tablero_barcos[0][8] == '~'):
-                    posiciones.append((0,8))
-                if (self.tablero_barcos[1][9] == '~'):
-                    posiciones.append((1,0))
-            else:
+            elif (pos == (0,c.TAM-1)): # (0,9)
+                if (self.tablero_barcos[0][c.TAM-2] == '~'):
+                    posiciones.append((0,c.TAM-2))
+                if (self.tablero_barcos[1][c.TAM-1] == '~'):
+                    posiciones.append((1,c.TAM-1))
+            else: #en fila 0 pero sin ser extremo
                 if(self.tablero_barcos[0][posy+1] == '~'):
                     posiciones.append((0,posy+1))
                 if(self.tablero_barcos[0][posy-1] == '~'):
@@ -84,17 +123,17 @@ class Tablero:
                 if(self.tablero_barcos[1][posy] == '~'):
                     posiciones.append((1,posy))
         
-        if(posx == 9):
-            if(pos == (9,0)):
-                if(self.tablero_barcos[8][0] == '~'):
-                    posiciones.append((8,0))
-                if(self.tablero_barcos[9][1] == '~'):
-                    posiciones.append((9,1))
-            elif(pos == (9,9)):
-                if(self.tablero_barcos[8][9] == '~'):
-                    posiciones.append((8,9))
-                if(self.tablero_barcos[9][8] == '~'):
-                    posiciones.append((9,8))
+        if(posx == c.TAM-1):
+            if(pos == (c.TAM-1,0)): #(9,0)
+                if(self.tablero_barcos[c.TAM-2][0] == '~'):
+                    posiciones.append((c.TAM-2,0))
+                if(self.tablero_barcos[c.TAM-1][1] == '~'):
+                    posiciones.append((c.TAM-1,1))
+            elif(pos == (c.TAM-1,c.TAM-1)): #(9,9)
+                if(self.tablero_barcos[c.TAM-2][c.TAM-1] == '~'):
+                    posiciones.append((c.TAM-2,c.TAM-1))
+                if(self.tablero_barcos[c.TAM-1][c.TAM-2] == '~'):
+                    posiciones.append((c.TAM-1,c.TAM-2))
             else:
                 if(self.tablero_barcos[9][posy+1] == '~'):
                     posiciones.append((9,posy+1))
@@ -103,7 +142,7 @@ class Tablero:
                 if(self.tablero_barcos[8][posy] == '~'):
                     posiciones.append((1,posy))
         
-        if(posy == 0 and posx != 0 and posx != 9):
+        if(posy == 0 and posx != 0 and posx != c.TAM-1): #en columana 0 pero sin ser extremo
             if(self.tablero_barcos[posx-1][0] == '~'):
                 posiciones.append((posx-1,0))
             if(self.tablero_barcos[posx+1][0] == '~'):
@@ -111,15 +150,15 @@ class Tablero:
             if(self.tablero_barcos[posx][1] == '~'):
                 posiciones.append((posx,1))
             
-        if(posy == 9 and posx != 0 and posx != 9):
-            if(self.tablero_barcos[posx-1][9] == '~'):
-                posiciones.append((posx-1,9))
-            if(self.tablero_barcos[posx+1][9] == '~'):
-                posiciones.append((posx+1,9))
-            if(self.tablero_barcos[posx][8] == '~'):
-                posiciones.append((posx,8))
+        if(posy == c.TAM-1 and posx != 0 and posx != c.TAM-1): #en columna c.TAM-1
+            if(self.tablero_barcos[posx-1][c.TAM-1] == '~'):
+                posiciones.append((posx-1,c.TAM-1))
+            if(self.tablero_barcos[posx+1][c.TAM-1] == '~'):
+                posiciones.append((posx+1,c.TAM-1))
+            if(self.tablero_barcos[posx][c.TAM-2] == '~'):
+                posiciones.append((posx,c.TAM-2))
 
-        if posx in range(1,8) and posy in range(1,8):
+        if posx in range(1,c.TAM-2) and posy in range(1,c.TAM-2):
             if(self.tablero_barcos[posx-1][posy] == '~'):
                 posiciones.append((posx-1,posy))
             if(self.tablero_barcos[posx+1][posy] == '~'):
@@ -137,8 +176,8 @@ class Tablero:
         output: posicion:tupla
         '''
         while True:
-            posx = random.randint(0,9)
-            posy = random.randint(0,9)
+            posx = random.randint(0,c.TAM-1)
+            posy = random.randint(0,c.TAM-1)
             ic("dispara:",(posx,posy))
             if((posx,posy) not in self.posiciones_probadas()):
                 self.posiciones_probadas.append((posx,posy))
@@ -221,8 +260,6 @@ class Tablero:
                   disparar_random, calcular_direccion
         '''
         ic("disparar_cpu_inteligente")
-        
-        
         self.posicionesEnemigas = self.posiciones_de_('X')
         if (self.posicionesEnemigas == []):
             ic("dispara random no hay impacto previo")
