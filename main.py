@@ -20,8 +20,8 @@ class Juego:
         # Inicializar pygame
         pygame.init()
         self.pantalla = pygame.display.set_mode((c.ANCHO, c.ALTO))
-        jugador1 = Tablero()
-        jugador2 = Tablero()   
+        self.jugador1 = Tablero()
+        self.jugador2 = Tablero()   
 
     def iniciar_juego(self):
         '''
