@@ -45,10 +45,11 @@ class Tablero:
         '''Jugador vivo o muerto'''
         ic("Estado jugador")
         #print("Estado jugador")
-        if self.numero_impactos>0:
-            print("Sigues vivo")
-        else:
-            print("Estás muerto")
+        vivo=True
+        if self.numero_impactos==20:
+            vivo=False
+            return vivo
+        return vivo
 
 
 jugador = Tablero()
