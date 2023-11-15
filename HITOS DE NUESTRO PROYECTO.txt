@@ -1,0 +1,21 @@
+HITOS DE NUESTRO PROYECTO DE HUNDIR LA FLOTA
+
+H1: Conseguir un juego operativo, en el que los barcos estén colocados en posiciones fijas para ambos jugadores y sus disparos sean a un punto aleatorio.
+
+H2: Juego operativo con los barcos colocados en posiciones fijas, disparo aleatorio para el J2 (máquina) y eligiendo coordenadas para el J1
+
+H3: Juego operativo que incluya que los barcos sean colocados en posiciones aleatorias para ambos jugadores, disparo aleatorio para el J2 (máquina) y eligiendo coordenadas para el J1
+-------------------------------------------------------------------------------
+BONUS
+
+H4: Juego operativo en el que el J1 elija la posición y orientación de sus barcos. Para el J2 (la maquina) los barcos se seguirán colocando de manera aleatoria y con respecto a los disparos, seguirán siendo aleatorios para la máquina y eligiendo coordenadas para J1. 
+
+H5: Para incluir complejidad, creamos la clase Barco además de Tablero, que nos ayudará a la hora de introducir métodos más complejos.
+
+H6: Incluimos un disparo INTELIGENTE para el J2 (máquina) para añadir un nivel de dificultad especial a la partida.
+
+H7: Creamos un índice de opciones a realizar antes del disparo (SALIR DEL JUEGO, IMPRIMIR TABLERO BARCOS, VOLVER A EMPEZAR, BARCOS QUE QUEDAN POR HUNDIR…)
+
+H8: Embellecemos el juego, usando librerías especializadas para crear una interfaz gráfica y sonidos
+
+H9: ¡OPCIONAL Y SOLO SI NOS DA TIEMPO!!! Creamos estadísticas de juego, o bien a nivel de partida (el número de partidas jugadas, victorias, derrotas, promedio de disparos antes de golpear un barco…) o a lo largo de varias partidas, pudiendo crear si queremos graficas con librería MATPLOTLIB para visualizar los resultados
