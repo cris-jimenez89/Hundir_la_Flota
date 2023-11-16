@@ -1,8 +1,10 @@
+import pygame
+import sys
 import numpy as np
 import random
-import pygame
 import winsound
-from icecream import ic
+import icecream as ic
+from Clases import Tablero
 import constantes as c
 
 class Tablero:
@@ -30,43 +32,6 @@ class Tablero:
 
     def pintar_tablero_jugadas(self):
         pass
-
-    def dibujar_tablero(self,tablero, posicionesHundidas,x, y, mensaje):
-        '''
-        Pinta el tablero en pantalla
-        '''
-        # Dibujar etiqueta del tablero
-        fuente = pygame.font.Font(None, 36)
-        texto = fuente.render(mensaje, True, self.NEGRO)
-        texto_rect = texto.get_rect(center=(x + self.TAM_CASILLA * 5, y - 30))
-        self.pantalla.blit(texto, texto_rect)
-
-        # Dibujar números de fila
-        for i in range(10):
-            num_fila = fuente.render(str(i), True, self.NEGRO)
-            self.pantalla.blit(num_fila, (x - 30, y + i * self.TAM_CASILLA + 5))
-
-            for j in range(10):
-           
-                if tablero[i][j] == 'X':
-                    pygame.draw.rect(self.pantalla, self.VERDE, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA))
-                elif tablero[i][j] == 'O':
-                    pygame.draw.rect(self.pantalla, self.NEGRO, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA))
-                else:
-                    pygame.draw.rect(self.pantalla, self.AZUL, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA))
-                # Dibujar celdas y bordes de celda
-                if((i,j) in posicionesHundidas):
-                    pygame.draw.rect(self.pantalla, self.ROJO, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA))
-                pygame.draw.rect(self.pantalla, self.BLANCO, (x + j * self.TAM_CASILLA, y + i * self.TAM_CASILLA, self.TAM_CASILLA, self.TAM_CASILLA), 1)
-    
-        # Dibujar bordes del tablero
-        pygame.draw.rect(self.pantalla, self.NEGRO, (x, y, self.TAM_CASILLA * 10, self.TAM_CASILLA * 10), 3)
-        # Dibujar números de columna
-        for j in range(10):
-            num_columna = fuente.render(str(j), True, self.NEGRO)
-            mi_juego.pantalla.blit(num_columna, (x + j * self.TAM_CASILLA + 5, y + self.TAM_CASILLA * 10 + 5))
-
-
 
     def pintar_barco(self,posiciones):
         pass
@@ -134,7 +99,7 @@ class Tablero:
                     posiciones.append((c.TAM-2,c.TAM-1))
                 if(self.tablero_barcos[c.TAM-1][c.TAM-2] == '~'):
                     posiciones.append((c.TAM-1,c.TAM-2))
-            else:
+            else: #fila 9 sin ser extremo
                 if(self.tablero_barcos[9][posy+1] == '~'):
                     posiciones.append((9,posy+1))
                 if(self.tablero_barcos[9][posy-1] == '~'):
@@ -158,7 +123,7 @@ class Tablero:
             if(self.tablero_barcos[posx][c.TAM-2] == '~'):
                 posiciones.append((posx,c.TAM-2))
 
-        if posx in range(1,c.TAM-2) and posy in range(1,c.TAM-2):
+        if posx in range(1,c.TAM-2) and posy in range(1,c.TAM-2): # cualquier otra posicion del tablero
             if(self.tablero_barcos[posx-1][posy] == '~'):
                 posiciones.append((posx-1,posy))
             if(self.tablero_barcos[posx+1][posy] == '~'):
@@ -219,11 +184,13 @@ class Tablero:
         
         posiciones_cercanas_h = []
         posx = impacto1[0]
+        posy = impacto1[1]
         for i in posiciones_cercanas:
             if(posx == i[0]):
                 posiciones_cercanas_h.append(i)
             # añadir aqui resto de elementos con radio hasta 4 en posy de impacto1
             # hacer lo mismo en cerca_v
+            #posiciones_cercanas_h.append((posx,posy))
             if(len(posiciones_cercanas_h) != 0):
                     posicion = posiciones_cercanas_h.pop()
                     self.posiciones_probadas(posicion)
@@ -281,4 +248,97 @@ class Tablero:
                    return self.disparar_cerca_dir_h(posiciones_cercanas,impacto1)
                else:
                    return self.disparar_cerca_dir_v(posiciones_cercanas,impacto1)
-                        
+
+class Juego:
+
+    def __init__(self):
+        '''
+        Constructor Juego
+        '''
+        
+        self.listaPosicionesHundidas1 = []
+        self.listaPosicionesHundidas2 = []
+        #iniciacion de pantalla
+        # Inicializar pygame
+        pygame.init()
+        self.pantalla = pygame.display.set_mode((c.ANCHO, c.ALTO))
+        self.jugador1 = Tablero()
+        self.jugador2 = Tablero()   
+
+    def iniciar_juego(self):
+        '''
+        Genera la flota para ambos jugadores
+        relacion: generar_flota
+        '''
+        pass
+
+    def jugar(self):
+        '''
+        En el tiene lugar la logica del juego controlando el turno y las
+        acciones de los jugadores
+        relacion: jugador.disparar, jugador.marcar_resultado_disparo,
+                  pintar_tablero1, comprobar_estado_derrotado,
+                  pintar_taablero2, winsound.Playsound,
+                  dibujar_tablero
+        '''
+        pass  # AQUI VA EL BUCLE DEL JUEGO
+
+
+    def dibujar_tablero(self,tablero, posicionesHundidas,x, y, mensaje):
+        '''
+        Pinta el tablero en pantalla
+        '''
+        # Dibujar etiqueta del tablero
+        fuente = pygame.font.Font(None, 36)
+        texto = fuente.render(mensaje, True, c.NEGRO)
+        texto_rect = texto.get_rect(center=(x + c.TAM_CASILLA * 5, y - 30))
+        self.pantalla.blit(texto, texto_rect)
+
+        # Dibujar números de fila
+        for i in range(c.TAM):
+            num_fila = fuente.render(str(i), True, c.NEGRO)
+            self.pantalla.blit(num_fila, (x - 30, y + i * c.TAM_CASILLA + 5))
+
+            for j in range(c.TAM):
+           
+                if tablero[i][j] == 'X':
+                    pygame.draw.rect(self.pantalla, c.VERDE, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
+                elif tablero[i][j] == 'O':
+                    pygame.draw.rect(self.pantalla, c.NEGRO, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
+                elif tablero[i][j] == '~':
+                    pygame.draw.rect(self.pantalla, c.AZUL, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
+                else: #Hay una "B", pinta gris porque es un barco
+                    pygame.draw.rect(self.pantalla, c.GRIS, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
+                # Dibujar celdas y bordes de celda
+                if((i,j) in posicionesHundidas):
+                    pygame.draw.rect(self.pantalla, c.ROJO, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA))
+                pygame.draw.rect(self.pantalla, c.BLANCO, (x + j * c.TAM_CASILLA, y + i * c.TAM_CASILLA, c.TAM_CASILLA, c.TAM_CASILLA), 1)
+    
+        # Dibujar bordes del tablero
+        pygame.draw.rect(self.pantalla, c.NEGRO, (x, y, c.TAM_CASILLA * 10, c.TAM_CASILLA * 10), 3)
+        # Dibujar números de columna
+        for j in range(c.TAM):
+            num_columna = fuente.render(str(j), True, c.NEGRO)
+            self.pantalla.blit(num_columna, (x + j * c.TAM_CASILLA + 5, y + c.TAM_CASILLA * 10 + 5))
+
+    def jugar_otra_vez(self):
+        '''
+        Pregunta al usuario si quiere jugar otra vez
+        Output: bool
+        relacion: winsound.Playsound
+        '''
+        while True:
+          try:
+            continuar = str(input("Quieres jugar otra vez (s/n)?"))
+            if (continuar == "s"):
+                winsound.PlaySound('sonidos/bonus.wav',winsound.SND_FILENAME)
+                return True
+            
+            elif (continuar == "n"):
+                winsound.PlaySound('sonidos/Windows Shutdown.wav',winsound.SND_FILENAME)
+                return False
+            else:
+                print("opcion no valida")
+          except Exception:
+             print("introduzca (s/n)")
+
