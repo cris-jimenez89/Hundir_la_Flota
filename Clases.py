@@ -1,11 +1,9 @@
-import pygame
-import sys
 import numpy as np
 import random
 import winsound
 import icecream as ic
-from Clases import Tablero
 import constantes as c
+
 
 class Tablero:
     
@@ -22,31 +20,75 @@ class Tablero:
         self.tipos_barcos = {1:4,2:3,3:2,4:1}
         self.posiciones_probadas = []
         self.posicionesEnemigas = [] 
-        
+        self.listaPosicionesHundidas = []
+    
+    
     
     def colocar_barcos(self):
-       pass
+        print("colocar barcos")
+        for i in self.posiciones:
+           self.pintar_barco(i)
     
     def pintar_tablero_barcos(self):
-        pass
+        print("pintar tablero barcos")
+        for i in range(10):
+            for j in range(10):
+                print(self.tablero_barcos[i][j],end =" ")
+            print(" ")
 
     def pintar_tablero_jugadas(self):
-        pass
+        print("pintar tablero jugadas")
+        for i in range(10):
+            for j in range(10):
+                print(self.tablero_jugadas[i][j],end =" ")
+            print(" ")    
 
     def pintar_barco(self,posiciones):
-        pass
+        print("pintar barco")
+        for i in posiciones:
+            self.tablero_barcos[i[0]][i[1]] = 'B'
 
     def pintar_resultado_disparo(self,resultado):
-        pass
-
+        print("pintar resultado")
+        pos = resultado[0]
+        posx = pos[0]
+        posy = pos[1]
+        caracter = resultado[1]
+        self.tablero_jugadas[posx][posy] = caracter
+        
+    
     def recibir_impacto(self,pos):
-        pass
+        print("recibir_impacto")
+        if(self.tablero_barcos[pos[0]][pos[1]] == "~"):
+            print("agua")
+            return [pos,"O"]
+        else:
+            print("tocado")
+            self.numero_impactos = self.numero_impactos + 1
+            print(self.numero_impactos)
+            return [pos,"X"]
 
     def estado_jugador(self):
-        pass
+        print("estado_jugador")
+        vivo = True
+        if(self.numero_impactos == 20):
+            vivo = False
+        return vivo
 
     def disparar(self):
-        pass
+        print("disparar")
+        while True:
+            posx = random.randint(0,9)
+            posy = random.randint(0,9)
+            print((posx,posy))
+            if((posx,posy) not in self.posiciones_probadas):
+                self.posiciones_probadas.append((posx,posy))
+                print(self.posiciones_probadas)
+                return(posx,posy)
+            else:
+                print("posicion repetida")    
+
+    
 
     def posiciones_de_(self,c):
         '''
@@ -248,6 +290,8 @@ class Tablero:
                    return self.disparar_cerca_dir_h(posiciones_cercanas,impacto1)
                else:
                    return self.disparar_cerca_dir_v(posiciones_cercanas,impacto1)
+import pygame
+import sys
 
 class Juego:
 
@@ -270,7 +314,8 @@ class Juego:
         Genera la flota para ambos jugadores
         relacion: generar_flota
         '''
-        pass
+        self.jugador1.colocar_barcos()
+        self.jugador2.colocar_barcos()
 
     def jugar(self):
         '''
@@ -281,7 +326,54 @@ class Juego:
                   pintar_taablero2, winsound.Playsound,
                   dibujar_tablero
         '''
-        pass  # AQUI VA EL BUCLE DEL JUEGO
+        # AQUI VA EL BUCLE DEL JUEGO
+        turno = 1
+        while True:
+            if ( turno == 1):
+                #jugador1 dispara y apunta el resultado
+                print("jugador1 dispara")
+                posicion = self.jugador1.disparar()
+                print(posicion)
+                resultado = self.jugador2.recibir_impacto(posicion)
+                self.jugador1.pintar_resultado_disparo(resultado)
+                print("tablero jugadas jugador1")
+                self.jugador1.pintar_tablero_jugadas()
+                self.listaPosicionesHundidas2 = self.jugador2.listaPosicionesHundidas
+                self.dibujar_tablero(self.jugador1.tablero_jugadas,self.listaPosicionesHundidas2 ,c.MARGEN, 50, "Tablero 1")
+                self.dibujar_tablero(self.jugador2.tablero_jugadas,self.listaPosicionesHundidas1 ,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2")
+
+                if (resultado[1] != "X"):
+                    turno = 2
+                else:
+                    vivo = self.jugador2.estado_jugador()
+                    if not vivo:
+                        print("has ganado jugador1")
+                        winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
+                        break
+       
+            else:
+                #jugador2 dispara y apunta el resultado
+                print("jugador2 dispara")
+                posicion2 = self.jugador2.disparar()
+                print(posicion2)
+                resultado2 = self.jugador1.recibir_impacto(posicion2)
+                self.jugador2.pintar_resultado_disparo(resultado2)
+                print("tablero jugadas jugador2")
+                self.jugador2.pintar_tablero_jugadas()
+                self.listaPosicionesHundidas1 = self.jugador1.listaPosicionesHundidas
+                # Dibujar tableros
+                self.dibujar_tablero(self.jugador1.tablero_jugadas, self.listaPosicionesHundidas2,c.MARGEN, 50, "Tablero 1")
+                self.dibujar_tablero(self.jugador2.tablero_jugadas, self.listaPosicionesHundidas1,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2")
+                if(resultado2[1] != "X"):
+                    turno = 1
+                else:
+                    vivo = self.jugador2.estado_jugador()
+                    if not vivo:
+                        print("has ganado jugador2")
+                        winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
+                        break
+            pygame.display.flip()
+  
 
 
     def dibujar_tablero(self,tablero, posicionesHundidas,x, y, mensaje):
@@ -296,7 +388,7 @@ class Juego:
 
         # Dibujar números de fila
         for i in range(c.TAM):
-            num_fila = fuente.render(str(i), True, c.NEGRO)
+            num_fila = fuente.render(str(i), True, c.BLANCO)
             self.pantalla.blit(num_fila, (x - 30, y + i * c.TAM_CASILLA + 5))
 
             for j in range(c.TAM):
@@ -342,3 +434,9 @@ class Juego:
           except Exception:
              print("introduzca (s/n)")
 
+condicion = True
+while (condicion):
+    mi_juego = Juego()
+    mi_juego.iniciar_juego()
+    mi_juego.jugar()
+    condicion = mi_juego.jugar_otra_vez()

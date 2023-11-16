@@ -1,6 +1,5 @@
 from Clases import Juego
-from icecream import ic
-import constantes as c
+
 
 
     
