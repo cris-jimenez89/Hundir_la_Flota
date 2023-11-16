@@ -95,10 +95,10 @@ class Tablero:
         Devuelve las posiciones del caracter c en tablero jugadas
         output: posiciones_enemigas:lista 
         '''
-        ic("posiciones_de")
+        #ic("posiciones_de")
         posiciones = []
-        for i in range(c.TAM):
-            for j in range(c.TAM):
+        for i in range(10):
+            for j in range(10):
                 if(self.tablero_jugadas[i][j] == c ):
                     posiciones.append((i,j))
         return posiciones
@@ -113,66 +113,66 @@ class Tablero:
         posy = pos[1]
         if (posx == 0):
             if(pos == (0,0)):
-                if (self.tablero_barcos[0][1] == '~'):
+                if (self.tablero_jugadas[0][1] == '~'):
                     posiciones.append((0,1))
-                if (self.tablero_barcos[0][1] == '~'):
+                if (self.tablero_jugadas[0][1] == '~'):
                     posiciones.append((1,0))
             elif (pos == (0,c.TAM-1)): # (0,9)
-                if (self.tablero_barcos[0][c.TAM-2] == '~'):
+                if (self.tablero_jugadas[0][c.TAM-2] == '~'):
                     posiciones.append((0,c.TAM-2))
-                if (self.tablero_barcos[1][c.TAM-1] == '~'):
+                if (self.tablero_jugadas[1][c.TAM-1] == '~'):
                     posiciones.append((1,c.TAM-1))
             else: #en fila 0 pero sin ser extremo
                 if(self.tablero_barcos[0][posy+1] == '~'):
                     posiciones.append((0,posy+1))
-                if(self.tablero_barcos[0][posy-1] == '~'):
+                if(self.tablero_jugadas[0][posy-1] == '~'):
                     posiciones.append((0,posy-1))
-                if(self.tablero_barcos[1][posy] == '~'):
+                if(self.tablero_jugadas[1][posy] == '~'):
                     posiciones.append((1,posy))
         
         if(posx == c.TAM-1):
             if(pos == (c.TAM-1,0)): #(9,0)
-                if(self.tablero_barcos[c.TAM-2][0] == '~'):
+                if(self.tablero_jugadas[c.TAM-2][0] == '~'):
                     posiciones.append((c.TAM-2,0))
-                if(self.tablero_barcos[c.TAM-1][1] == '~'):
+                if(self.tablero_jugadas[c.TAM-1][1] == '~'):
                     posiciones.append((c.TAM-1,1))
             elif(pos == (c.TAM-1,c.TAM-1)): #(9,9)
-                if(self.tablero_barcos[c.TAM-2][c.TAM-1] == '~'):
+                if(self.tablero_jugadas[c.TAM-2][c.TAM-1] == '~'):
                     posiciones.append((c.TAM-2,c.TAM-1))
-                if(self.tablero_barcos[c.TAM-1][c.TAM-2] == '~'):
+                if(self.tablero_jugadas[c.TAM-1][c.TAM-2] == '~'):
                     posiciones.append((c.TAM-1,c.TAM-2))
             else: #fila 9 sin ser extremo
-                if(self.tablero_barcos[9][posy+1] == '~'):
+                if(self.tablero_jugadas[9][posy+1] == '~'):
                     posiciones.append((9,posy+1))
-                if(self.tablero_barcos[9][posy-1] == '~'):
+                if(self.tablero_jugadas[9][posy-1] == '~'):
                     posiciones.append((9,posy-1))
-                if(self.tablero_barcos[8][posy] == '~'):
+                if(self.tablero_jugadas[8][posy] == '~'):
                     posiciones.append((1,posy))
         
         if(posy == 0 and posx != 0 and posx != c.TAM-1): #en columana 0 pero sin ser extremo
-            if(self.tablero_barcos[posx-1][0] == '~'):
+            if(self.tablero_jugadas[posx-1][0] == '~'):
                 posiciones.append((posx-1,0))
-            if(self.tablero_barcos[posx+1][0] == '~'):
+            if(self.tablero_jugadas[posx+1][0] == '~'):
                 posiciones.append((posx+1,0))
-            if(self.tablero_barcos[posx][1] == '~'):
+            if(self.tablero_jugadas[posx][1] == '~'):
                 posiciones.append((posx,1))
             
         if(posy == c.TAM-1 and posx != 0 and posx != c.TAM-1): #en columna c.TAM-1
-            if(self.tablero_barcos[posx-1][c.TAM-1] == '~'):
+            if(self.tablero_jugadas[posx-1][c.TAM-1] == '~'):
                 posiciones.append((posx-1,c.TAM-1))
-            if(self.tablero_barcos[posx+1][c.TAM-1] == '~'):
+            if(self.tablero_jugadas[posx+1][c.TAM-1] == '~'):
                 posiciones.append((posx+1,c.TAM-1))
-            if(self.tablero_barcos[posx][c.TAM-2] == '~'):
+            if(self.tablero_jugadas[posx][c.TAM-2] == '~'):
                 posiciones.append((posx,c.TAM-2))
 
-        if posx in range(1,c.TAM-2) and posy in range(1,c.TAM-2): # cualquier otra posicion del tablero
-            if(self.tablero_barcos[posx-1][posy] == '~'):
+        if posx in range(1,c.TAM-1) and posy in range(1,c.TAM-1): # cualquier otra posicion del tablero
+            if(self.tablero_jugadas[posx-1][posy] == '~'):
                 posiciones.append((posx-1,posy))
-            if(self.tablero_barcos[posx+1][posy] == '~'):
+            if(self.tablero_jugadas[posx+1][posy] == '~'):
                 posiciones.append((posx+1,posy))
-            if(self.tablero_barcos[posx][posy-1] == '~'):
+            if(self.tablero_jugadas[posx][posy-1] == '~'):
                 posiciones.append((posx,posy-1))
-            if(self.tablero_barcos[posx][posy+1] == '~'):
+            if(self.tablero_jugadas[posx][posy+1] == '~'):
                 posiciones.append((posx,posy+1))
 
         return posiciones
@@ -185,10 +185,14 @@ class Tablero:
         while True:
             posx = random.randint(0,c.TAM-1)
             posy = random.randint(0,c.TAM-1)
-            ic("dispara:",(posx,posy))
-            if((posx,posy) not in self.posiciones_probadas()):
+            #ic("dispara:",(posx,posy))
+            if(len(self.posiciones_probadas) == 0):
                 self.posiciones_probadas.append((posx,posy))
                 return (posx,posy)
+            else:
+                if((posx,posy) not in self.posiciones_probadas):
+                    self.posiciones_probadas.append((posx,posy))
+                    return (posx,posy)
 
     def calcular_direccion(self,impacto1,impacto2):
         '''
@@ -232,12 +236,13 @@ class Tablero:
                 posiciones_cercanas_h.append(i)
             # añadir aqui resto de elementos con radio hasta 4 en posy de impacto1
             # hacer lo mismo en cerca_v
-            #posiciones_cercanas_h.append((posx,posy))
-            if(len(posiciones_cercanas_h) != 0):
-                    posicion = posiciones_cercanas_h.pop()
-                    self.posiciones_probadas(posicion)
-                    return posicion
-            else:
+        posiciones_cercanas_h.append((posx,posy-2))
+        posiciones_cercanas_h.append((posx,posy+2))
+        if(len(posiciones_cercanas_h) != 0):
+            posicion = posiciones_cercanas_h.pop()
+            self.posiciones_probadas(posicion)
+            return posicion
+        else:
                 return self.disparar_random() 
 
     def disparar_cerca_dir_v(self,posiciones_cercanas,impacto1):
@@ -249,11 +254,13 @@ class Tablero:
         '''
 
         posiciones_cercanas_v = []
+        posx = impacto1[0]
         posy = impacto1[1]
         for i in posiciones_cercanas:
             if(posy == i[1]):
                 posiciones_cercanas_v.append(i)
-            
+            posiciones_cercanas_v.append((posx-2,posy))
+            posiciones_cercanas_v.append((posx-2,posy))
             if(len(posiciones_cercanas_v) != 0):
                 posicion = posiciones_cercanas_v.pop()
                 self.posiciones_probadas(posicion)
@@ -268,14 +275,14 @@ class Tablero:
         relacion: posiciones_de,posiciones_cerca_impacto
                   disparar_random, calcular_direccion
         '''
-        ic("disparar_cpu_inteligente")
+        #ic("disparar_cpu_inteligente")
         self.posicionesEnemigas = self.posiciones_de_('X')
         if (self.posicionesEnemigas == []):
-            ic("dispara random no hay impacto previo")
+            #ic("dispara random no hay impacto previo")
             return self.disparar_random()
         else:
             if(len(self.posicionesEnemigas) == 1):
-                ic("hay un impacto")
+                #ic("hay un impacto")
                 return self.disparar_cerca_impacto()
             else:
                #existen 2 impactos
@@ -290,9 +297,12 @@ class Tablero:
                    return self.disparar_cerca_dir_h(posiciones_cercanas,impacto1)
                else:
                    return self.disparar_cerca_dir_v(posiciones_cercanas,impacto1)
+
+
+
 import pygame
 import sys
-
+import icecream as ic
 class Juego:
 
     def __init__(self):
@@ -354,7 +364,7 @@ class Juego:
             else:
                 #jugador2 dispara y apunta el resultado
                 print("jugador2 dispara")
-                posicion2 = self.jugador2.disparar()
+                posicion2 = self.jugador2.disparar_cpu_inteligente()
                 print(posicion2)
                 resultado2 = self.jugador1.recibir_impacto(posicion2)
                 self.jugador2.pintar_resultado_disparo(resultado2)
@@ -433,10 +443,11 @@ class Juego:
                 print("opcion no valida")
           except Exception:
              print("introduzca (s/n)")
-
+'''
 condicion = True
 while (condicion):
     mi_juego = Juego()
     mi_juego.iniciar_juego()
     mi_juego.jugar()
     condicion = mi_juego.jugar_otra_vez()
+'''
