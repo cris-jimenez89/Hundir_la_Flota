@@ -240,7 +240,7 @@ class Tablero:
         posiciones_cercanas_h.append((posx,posy+2))
         if(len(posiciones_cercanas_h) != 0):
             posicion = posiciones_cercanas_h.pop()
-            self.posiciones_probadas(posicion)
+            self.posiciones_probadas.append(posicion)
             return posicion
         else:
                 return self.disparar_random() 
@@ -263,7 +263,7 @@ class Tablero:
             posiciones_cercanas_v.append((posx-2,posy))
             if(len(posiciones_cercanas_v) != 0):
                 posicion = posiciones_cercanas_v.pop()
-                self.posiciones_probadas(posicion)
+                self.posiciones_probadas.append(posicion)
                 return posicion
             else:
                 return self.disparar_random() 
