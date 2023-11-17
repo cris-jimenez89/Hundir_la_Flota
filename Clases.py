@@ -61,9 +61,11 @@ class Tablero:
         print("recibir_impacto")
         if(self.tablero_barcos[pos[0]][pos[1]] == "~"):
             print("agua")
+            winsound.PlaySound("sonidos/splash.wav",winsound.SND_FILENAME)
             return [pos,"O"]
         else:
             print("tocado")
+            winsound.PlaySound("sonidos/explosion.wav",winsound.SND_FILENAME)
             self.numero_impactos = self.numero_impactos + 1
             print(self.numero_impactos)
             return [pos,"X"]
@@ -236,8 +238,9 @@ class Tablero:
                 posiciones_cercanas_h.append(i)
             # añadir aqui resto de elementos con radio hasta 4 en posy de impacto1
             # hacer lo mismo en cerca_v
-        posiciones_cercanas_h.append((posx,posy-2))
-        posiciones_cercanas_h.append((posx,posy+2))
+        if posy + 2 < 10 and posy -2 >= 0:    
+            posiciones_cercanas_h.append((posx,posy-2))
+            posiciones_cercanas_h.append((posx,posy+2))
         if(len(posiciones_cercanas_h) != 0):
             posicion = posiciones_cercanas_h.pop()
             self.posiciones_probadas.append(posicion)
@@ -259,8 +262,9 @@ class Tablero:
         for i in posiciones_cercanas:
             if(posy == i[1]):
                 posiciones_cercanas_v.append(i)
-            posiciones_cercanas_v.append((posx-2,posy))
-            posiciones_cercanas_v.append((posx-2,posy))
+            if posx + 2 < 10 and posx -2 >= 0:    
+                posiciones_cercanas_v.append((posx-2,posy))
+                posiciones_cercanas_v.append((posx+2,posy))
             if(len(posiciones_cercanas_v) != 0):
                 posicion = posiciones_cercanas_v.pop()
                 self.posiciones_probadas.append(posicion)
