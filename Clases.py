@@ -9,14 +9,14 @@ class Tablero:
     
     
     def __init__(self) -> None:
-        
+        self.TAM
         self.numero_impactos = 0 
         self.tablero_barcos  = np.array([["~" for i in range(c.TAM)] for j in range(c.TAM)])
         self.tablero_jugadas = np.array([["~" for i in range(c.TAM)] for j in range(c.TAM)])
-        self.posiciones = [[(0,2)],[(1,1)],[(3,6)],[(9,5)],
+        self.posiciones= [] '''= [[(0,2)],[(1,1)],[(3,6)],[(9,5)],
                       [(2,7),(2,8)],[(3,3),(3,4)],[(5,5),(6,5)],
                       [(7,0),(8,0),(9,0)],[(6,8),(7,8),(8,8)],
-                      [(8,2),(8,3),(8,4),(8,5)]]
+                      [(8,2),(8,3),(8,4),(8,5)]], los incluimos como comentario, pues hemos usado posiciones fijas en los primeros hitos del proyecto'''
         self.tipos_barcos = {1:4,2:3,3:2,4:1}
         self.posiciones_probadas = []
         self.posicionesEnemigas = [] 
@@ -26,23 +26,87 @@ class Tablero:
       def pintar_tablero_barcos(self):
         '''Imprime el tablero donde van a situarse los barcos'''
         ic("Pintar el tablero barcos")
-        #print("Tablero barcos")
+        print("Tablero barcos")
         for filas in range(10):
             for columnas in range(10):
                 print(self.tablero_barcos[filas][columnas],end =" ")
             print(" ")
 
-    def colocar_barcos(self):
+    def colocar_barcos(self): # NOS HA SERVIDO PARA CUANDO TENIAMOS POSICIONES FIJOS, PARA ULTIMOS HITOS YA NO SIRVE
         '''Colocamos los barcos en el tablero'''
         ic("Colocar los barcos")
-        #print("Colocar barcos")
+        print("Colocar barcos")
         for i in self.posiciones:
             self.pintar_barco(i)
+
+
+# METODO PARA COLOCAR LOS BARCOS DE FORMA ALEATORIA, PARA LA MAQUINA
+    def colocar_aleatorio(self, tablero_size): 
+        '''Coloca el barco de forma aleatoria en el tablero.
+        Input: Tamaño del tablero (tupla), tipo de dato tuple (10,10)
+        Output: No tiene'''
+        orientacion = random.choice(['horizontal', 'vertical'])
+        if orientacion == 'horizontal':
+            fila = random.randint(0, tablero_size[0] - 1)
+            columna = random.randint(0, tablero_size[1] - self.tamano)
+            self.posiciones = [(fila, columna + i) for i in range(self.tamano)]
+        else:  # orientacion == 'vertical'
+            fila = random.randint(0, tablero_size[0] - self.tamano)
+            columna = random.randint(0, tablero_size[1] - 1)
+            self.posiciones = [(fila + i, columna) for i in range(self.tamano)]
+
+# METODO PARA ELEGIR LA COLOCACION DE LOS BARCOS Y LA ORIENTACION
+    def colocar_manualmente(self, tipo_barco, orientacion, posicion_inicial):
+        '''Coloca el barco manualmente en el tablero.
+        Input:
+            - El tipo de barco (1, 2, 3, 4 que obtendremos del diccionario self.tipos_barco )
+            - orientacion: La orientación del barco ('norte', 'sur', 'este' u 'oeste').
+            - posicion_inicial: La posición inicial del barco (fila, columna), en forma de tupla
+        Output: No tiene
+        Relacion con otros metodos: con DEF VALIDAR_COORDENADA(), para confirmar que no hay ningun otro barco ahí'''
+        tamano = self.tipos_barcos.get(tipo_barco, 0) # Obtener el tamaño del barco del diccionario tipos_barcos
+        if tamano == 0:
+        print("Tipo de barco no válido.")
+            return
+        if orientacion == 'norte':
+            self.posiciones = [(posicion_inicial[0] - i, posicion_inicial[1]) for i in range(self.tamano)]
+        elif orientacion == 'sur':
+            self.posiciones = [(posicion_inicial[0] + i, posicion_inicial[1]) for i in range(self.tamano)]
+        elif orientacion == 'este':
+            self.posiciones = [(posicion_inicial[0], posicion_inicial[1] + i) for i in range(self.tamano)]
+        elif orientacion == 'oeste':
+            self.posiciones = [(posicion_inicial[0], posicion_inicial[1] - i) for i in range(self.tamano)]
+        print(f"Colocando barco de tamaño {tamano}.")
+        
+
+    def validar_coordenada(self, nueva_posicion):
+        '''Valida si es posible colocar el barco en la nueva posición.
+        Input:
+            - nueva_posicion: La nueva posición a validar (fila, columna). 
+        Output:
+            - True si es posible colocar el barco, False de lo contrario
+        Relacion con otros metodos: Esta relacionado con los metodos DEF COLOCAR_BARCOS()[MANUAL O ALEATORIAMENTE]'''
+        for barco in otros_barcos:
+            for pos in self.posiciones: 
+            ic("revisamos en self.posiciones, donde se guardan nuestros barcos anteriores cada vez que se colocan")
+                if pos == nueva_posicion:
+                    return False  # La posición está ocupada por otro barco
+        return True  # La posición está disponible para colocar el barco
+
+     def validar_coordenada_para_barco(self, nueva_posicion):
+         '''Valida si es posible colocar el barco en la nueva posición.
+        Input:
+            nueva_posicion = fila y columna donde se pretende colocar nuestro barco,
+        Output:
+            - True si es posible colocar el barco, False de lo contrario
+        Relacion con otros metodos: Esta relacionado con los metodos DEF COLOCAR_BARCOS()[MANUAL O ALEATORIAMENTE]'''
+        return 0 <= fila < self.TAM and 0 <= columna < self.TAM and self.tablero_barcos[fila, columna] == "~"
+
 
     def pintar_barco(self,posiciones):
         '''Pintamos una B donde haya una posición de barco'''
         ic("Pintar barco")
-        #print("Pintar barco")
+        print("Pintar barco")
         for i in posiciones:
             posx = i[0]
             posy = i[1]
@@ -51,7 +115,7 @@ class Tablero:
     def estado_jugador(self):
         '''Jugador vivo o muerto'''
         ic("Estado jugador")
-        #print("Estado jugador")
+        print("Estado jugador")
         vivo=True
         if self.numero_impactos==20:
             vivo=False
@@ -95,22 +159,24 @@ class Tablero:
         Return: Posicion disparo, coordenadas en filas y columnas, tupla de int''' 
         ic("Disparar, pero esta vez ELIGIENDO COORDENADAS a un punto del tablero")
         print("Disparamos")
-        fila = int(input("Por favor, ingrese la fila donde desea efectuar el disparo, entre 0 y 9"))
-        columna = int(input("Ahora, ingrese la columna entre 0 y 9, por favor"))
-        ic("Importante que las coordenadas esten entre 0 y 9, tanto las filas como las columnas")           
-        if 0 <= fila <= 9 and 0 <= columna <= 9:
-            posicion_disparo = (fila,columna)
-            if posicion_disparo not in self.posiciones_probadas:
+    while True:
+        try:
+            fila = int(input("Por favor, ingrese la fila donde desea efectuar el disparo, entre 0 y 9"))
+            columna = int(input("Ahora, ingrese la columna entre 0 y 9, por favor"))
+            ic("Importante que las coordenadas esten entre 0 y 9, tanto las filas como las columnas")           
+            if 0 <= fila <= 9 and 0 <= columna <= 9:
+                posicion_disparo = (fila,columna)
+                if posicion_disparo not in self.posiciones_probadas:
                 ic("Si los datos ya se probaron anteriormente, estarán en self.posiciones_probadas")
-                self.posiciones_probadas.append(posicion_disparo)
-                print(self.posiciones_probadas)
-                return posicion_disparo
-            else:
-                print("Disparo en posición ya marcada")
+                    self.posiciones_probadas.append(posicion_disparo)
+                    print(self.posiciones_probadas)
+                    return posicion_disparo
+                else:
+                    print("Disparo en posición ya marcada")
             
-        else: 
-            ic("HABRA QUE LLAMAR OTRA VEZ A LA FUNCION O USAR UN BUCLE WHILE TRUE PARA QUE NO PARE DE BUSCAR COORDENADAS HASTA QUE SEAN VALIDAS")
-            print("COORDENADAS ERRONEAS, INGRESE VALORES VALIDOS ENTRE 0 Y 9")
+            else: 
+                ic("HABRIA QUE LLAMAR OTRA VEZ A LA FUNCION, PERO USAMOS MEJOR UN BUCLE WHILE TRUE PARA QUE NO PARE DE BUSCAR COORDENADAS HASTA QUE SEAN VALIDAS")
+                print("COORDENADAS ERRONEAS, INGRESE VALORES VALIDOS ENTRE 0 Y 9")
            
     
     def pintar_resultado_disparo(self,resultado):
@@ -377,15 +443,33 @@ class Juego:
         pygame.init()
         self.pantalla = pygame.display.set_mode((c.ANCHO, c.ALTO))
         self.jugador1 = Tablero()
-        self.jugador2 = Tablero()   
+        self.jugador2 = Tablero()
+        self.barcos_colocados = []
 
     def iniciar_juego(self):
         '''
         Genera la flota para ambos jugadores
         relacion: generar_flota
-        '''
-        self.jugador1.colocar_barcos()
-        self.jugador2.colocar_barcos()
+        '''     
+        ic("Asignamos tablero vacío a jugador 1")
+        # SI QUEREMOS VER TABLERO VACIO, DEF PINTAR_TABLERO_BARCOS
+        self.jugador1.pintar_tablero_barcos()
+        self.jugador1.colocar_manualmente()
+        ic("Colocamos los barcos del primer jugador, eligiendo posiciones")
+        self.jugador1.validar_coordenada() # NO SE COMO METER EL PARAMETRO QUE NECESITA ESTE METODO, NUEVA_POSICION
+        self.jugador1.validar_coordenada_para_barco() # NO SE COMO METER EL PARAMETRO QUE NECESITA ESTE METODO, NUEVA_POSICION
+        ic("Para confirmar que el barco se ha colocado correctamente)
+        # SI QUEREMOS VISUALIZAR LAS POSICIONES DE LOS BARCOS TRAS POSICIONARLOS, LAS IMPRIMIMOS CON EL METODO PINTAR_TABLERO_BARCOS DE NUEVO
+        self.jugador1.pintar_tablero_barcos()
+
+        ic("Hacemos lo mismo con jugador 2, la maquina")
+        self.jugador2.pintar_tablero_barcos() # Para verlo vacío SI ES QUE QUEREMOS
+        self.jugador2.colocar_aleatorio()
+        ic("Colocamos los barcos del segundo jugador, esta vez de manera aleatoria")
+        self.jugador2.def validar_coordenada_para_barco()
+        ic("Para confirmar que el barco se ha colocado correctamente) 
+        # SI QUEREMOS VISUALIZAR LAS POSICIONES DE LOS BARCOS TRAS POSICIONARLOS, LAS IMPRIMIMOS CON EL METODO PINTAR_TABLERO_BARCOS DE NUEVO
+        self.jugador2.pintar_tablero_barcos()
 
     def jugar(self):
         '''
@@ -397,24 +481,6 @@ class Juego:
                   dibujar_tablero
         '''
         # AQUI VA EL BUCLE DEL JUEGO
-       J1 = Tablero() 
-ic("Asignamos tablero vacío a jugador 1")
-# SI QUEREMOS VER TABLERO VACIO, DEF PINTAR_TABLERO_BARCOS
-J1.pintar_tablero_barcos()
-J1.colocar_barcos()
-ic("Colocamos los barcos del primer jugador, en primer momento en posiciones fijas")
-# SI QUEREMOS VISUALIZAR LAS POSICIONES DE LOS BARCOS, LAS IMPRIMIMOS CON EL METODO PINTAR_TABLERO_BARCOS DE NUEVO
-J1.pintar_tablero_barcos()
-
-J2 = Tablero()
-ic("Asignamos tablero vacío a jugador 2")
-# SI QUEREMOS VER TABLERO VACÍO, DEF PINTAR_TABLERO_BARCOS
-J2.pintar_tablero_barcos()
-J2.colocar_barcos()
-ic("Colocamos los barcos del segundo jugador, en un primer momento en posiciones fijas")
-# HACEMOS UN PRINT SI QUEREMOS DEL TABLERO CON LOS BARCOS, CON EL DEF PINTAR_TABLERO_BARCOS DE NUEVO
-J2.pintar_tablero_barcos()
-
 
 turno = 1
 while True:
@@ -598,7 +664,7 @@ class Barco:  # OPCIONAL!!
             self.posiciones = [(posicion_inicial[0], posicion_inicial[1] - i) for i in range(self.tamano)]
 
 # Otro metodo con numpy
-    def colocar_manualmente(self, orientacion, posicion_inicial):
+    def colocar_manualmente_numpy(self, orientacion, posicion_inicial):
         '''Coloca el barco manualmente en el tablero.
         Input:
             - orientacion: La orientación del barco ('norte', 'sur', 'este' u 'oeste'),dato str
