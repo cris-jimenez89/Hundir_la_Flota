@@ -23,72 +23,128 @@ class Tablero:
         self.listaPosicionesHundidas = []
     
     
-    
-    def colocar_barcos(self):
-        print("colocar barcos")
-        for i in self.posiciones:
-           self.pintar_barco(i)
-    
-    def pintar_tablero_barcos(self):
-        print("pintar tablero barcos")
-        for i in range(10):
-            for j in range(10):
-                print(self.tablero_barcos[i][j],end =" ")
+      def pintar_tablero_barcos(self):
+        '''Imprime el tablero donde van a situarse los barcos'''
+        ic("Pintar el tablero barcos")
+        #print("Tablero barcos")
+        for filas in range(10):
+            for columnas in range(10):
+                print(self.tablero_barcos[filas][columnas],end =" ")
             print(" ")
 
-    def pintar_tablero_jugadas(self):
-        print("pintar tablero jugadas")
-        for i in range(10):
-            for j in range(10):
-                print(self.tablero_jugadas[i][j],end =" ")
-            print(" ")    
+    def colocar_barcos(self):
+        '''Colocamos los barcos en el tablero'''
+        ic("Colocar los barcos")
+        #print("Colocar barcos")
+        for i in self.posiciones:
+            self.pintar_barco(i)
 
     def pintar_barco(self,posiciones):
-        print("pintar barco")
+        '''Pintamos una B donde haya una posición de barco'''
+        ic("Pintar barco")
+        #print("Pintar barco")
         for i in posiciones:
-            self.tablero_barcos[i[0]][i[1]] = 'B'
+            posx = i[0]
+            posy = i[1]
+            self.tablero_barcos[posx][posy] = "B"
 
+    def estado_jugador(self):
+        '''Jugador vivo o muerto'''
+        ic("Estado jugador")
+        #print("Estado jugador")
+        vivo=True
+        if self.numero_impactos==20:
+            vivo=False
+            return vivo
+        return vivo
+
+
+    def pintar_tablero_jugadas(self):
+        '''Imprime el tablero de las jugadas realizadas para poder visualizarlas
+        Entrada: No tiene parametros
+        Salida: No tiene salidas
+        Relacion con otros metodos: con el metodo DEF PINTAR_RESULTADO_DISPARO, que actualiza el tablero de jugadas '''
+        ic("Para pintar el tablero de las jugadas realizadas")
+        print("Tablero de jugadas")
+        for filas in range(10):
+            for columnas in range(10):
+                print(self.tablero_jugadas[filas][columnas],end = " ")
+            print(" ")     
+        
+    
+    def disparar(self):
+        '''Realiza un disparo en el juego, en un primer momento de forma aleatoria
+        Entrada: No tiene
+        Return: Posicion disparo, coordenadas en filas y columnas, tupla de int''' 
+        ic("Disparar de forma aleatoria a un punto del tablero usando random")
+        print("Disparamos")
+        while True: # Para que se siga ejecutando HASTA QUE ENCUENTRE UNA POSICION QUE NO ESTE EN POSICIONES PROBADAS
+            fila = random.randint(0,9)
+            columna = random.randint(0,9)
+            posicion_disparo = (fila,columna)
+            if posicion_disparo not in self.posiciones_probadas:
+                self.posiciones_probadas.append(posicion_disparo)
+                print(self.posiciones_probadas)
+                return posicion_disparo
+            else:
+                print("Disparo en posición ya marcada")
+    
+    def disparar_ELEGIDO(self): # O AÑADIR (SELF,FILA, COLUMNA)
+        '''Realiza un disparo en el juego, en un primer momento de forma aleatoria
+        Entrada: No tiene
+        Return: Posicion disparo, coordenadas en filas y columnas, tupla de int''' 
+        ic("Disparar, pero esta vez ELIGIENDO COORDENADAS a un punto del tablero")
+        print("Disparamos")
+        fila = int(input("Por favor, ingrese la fila donde desea efectuar el disparo, entre 0 y 9"))
+        columna = int(input("Ahora, ingrese la columna entre 0 y 9, por favor"))
+        ic("Importante que las coordenadas esten entre 0 y 9, tanto las filas como las columnas")           
+        if 0 <= fila <= 9 and 0 <= columna <= 9:
+            posicion_disparo = (fila,columna)
+            if posicion_disparo not in self.posiciones_probadas:
+                ic("Si los datos ya se probaron anteriormente, estarán en self.posiciones_probadas")
+                self.posiciones_probadas.append(posicion_disparo)
+                print(self.posiciones_probadas)
+                return posicion_disparo
+            else:
+                print("Disparo en posición ya marcada")
+            
+        else: 
+            ic("HABRA QUE LLAMAR OTRA VEZ A LA FUNCION O USAR UN BUCLE WHILE TRUE PARA QUE NO PARE DE BUSCAR COORDENADAS HASTA QUE SEAN VALIDAS")
+            print("COORDENADAS ERRONEAS, INGRESE VALORES VALIDOS ENTRE 0 Y 9")
+           
+    
     def pintar_resultado_disparo(self,resultado):
-        print("pintar resultado")
-        pos = resultado[0]
-        posx = pos[0]
-        posy = pos[1]
-        caracter = resultado[1]
-        self.tablero_jugadas[posx][posy] = caracter
+        '''Marca en el tablero de jugadas el disparo realizado
+        Entrada: RESULTADO(tupla): compuesto por una tupla con posicion de fila y columna (x,y)[posicion 0]
+        a la que se disparó y con el resultado del disparo("X" SI HAY IMPACTO, "O" SI ES AGUA)[posicion 1]
+        Salida: No tiene
+        Relacion con otros metodos: Resultado = return de la funcion de metodo DEF RECIBIR_IMPACTO'''
+        print("PINTAMOS RESULTADO DISPARO")
+        ic("Para pintar resultado del disparo, actualizando asi el tablero de jugadas")
+        pos = resultado[0] # Primera posicion de la tupla RESULTADO(fila y columna de resultado)
+        fila = pos[0] # Primera posicion en la tupla "pos" (donde se disparó)
+        columna = pos[1] # segunda posicion en la tupla "pos" (donde se disparó)
+        marca_en_tablero = resultado [1] # X o O
+        self.tablero_jugadas[fila][columna] = marca_en_tablero
+        
         
     
     def recibir_impacto(self,pos):
-        print("recibir_impacto")
-        if(self.tablero_barcos[pos[0]][pos[1]] == "~"):
-            print("agua")
-            winsound.PlaySound("sonidos/splash.wav",winsound.SND_FILENAME)
-            return [pos,"O"]
+        '''Sirve para verificar si hay un barco en esa posición.
+         Si hay un barco, marca la posición como tocada (X) y actualiza el número de impactos.
+        Si no hay un barco, marca la posición como agua.
+        Entrada: POS (UNA TUPLA): Una tupla que contiene las coordenadas (fila, columna) del impacto.
+        Salida: Una tupla que contiene la posición del impacto y el resultado del mismo.
+            La posición es una tupla (fila, columna) y el resultado es "O" para agua o "X" para impacto.'''
+        ic("analizamos resultado de disparo y actualizamos el numero de impactos que quedan para ganar")
+        if (self.tablero_barcos[pos[0]][pos[1]] == "~"):
+            print("AGUA")
+            return (pos,"O")
         else:
-            print("tocado")
-            winsound.PlaySound("sonidos/explosion.wav",winsound.SND_FILENAME)
+            print("TOCADO")
             self.numero_impactos = self.numero_impactos + 1
-            print(self.numero_impactos)
-            return [pos,"X"]
-
-    def estado_jugador(self):
-        print("estado_jugador")
-        vivo = True
-        if(self.numero_impactos == 20):
-            vivo = False
-        return vivo
-
-    def disparar(self):
-        print("disparar")
-        while True:
-            posx = random.randint(0,9)
-            posy = random.randint(0,9)
-            print((posx,posy))
-            if((posx,posy) not in self.posiciones_probadas):
-                self.posiciones_probadas.append((posx,posy))
-                print(self.posiciones_probadas)
-                return(posx,posy)
-            else:
-                print("posicion repetida")    
+            print("LLEVAMOS",self.numero_impactos)
+            return(pos,"X")
 
     
 
@@ -341,54 +397,73 @@ class Juego:
                   dibujar_tablero
         '''
         # AQUI VA EL BUCLE DEL JUEGO
-        turno = 1
-        while True:
-            if ( turno == 1):
-                #jugador1 dispara y apunta el resultado
-                print("jugador1 dispara")
-                posicion = self.jugador1.disparar()
-                print(posicion)
-                resultado = self.jugador2.recibir_impacto(posicion)
-                self.jugador1.pintar_resultado_disparo(resultado)
-                print("tablero jugadas jugador1")
-                self.jugador1.pintar_tablero_jugadas()
-                self.listaPosicionesHundidas2 = self.jugador2.listaPosicionesHundidas
-                self.dibujar_tablero(self.jugador1.tablero_jugadas,self.listaPosicionesHundidas2 ,c.MARGEN, 50, "Tablero 1")
-                self.dibujar_tablero(self.jugador2.tablero_jugadas,self.listaPosicionesHundidas1 ,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2")
+       J1 = Tablero() 
+ic("Asignamos tablero vacío a jugador 1")
+# SI QUEREMOS VER TABLERO VACIO, DEF PINTAR_TABLERO_BARCOS
+J1.pintar_tablero_barcos()
+J1.colocar_barcos()
+ic("Colocamos los barcos del primer jugador, en primer momento en posiciones fijas")
+# SI QUEREMOS VISUALIZAR LAS POSICIONES DE LOS BARCOS, LAS IMPRIMIMOS CON EL METODO PINTAR_TABLERO_BARCOS DE NUEVO
+J1.pintar_tablero_barcos()
 
-                if (resultado[1] != "X"):
-                    turno = 2
-                else:
-                    vivo = self.jugador2.estado_jugador()
-                    if not vivo:
-                        print("has ganado jugador1")
-                        winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
-                        break
-       
+J2 = Tablero()
+ic("Asignamos tablero vacío a jugador 2")
+# SI QUEREMOS VER TABLERO VACÍO, DEF PINTAR_TABLERO_BARCOS
+J2.pintar_tablero_barcos()
+J2.colocar_barcos()
+ic("Colocamos los barcos del segundo jugador, en un primer momento en posiciones fijas")
+# HACEMOS UN PRINT SI QUEREMOS DEL TABLERO CON LOS BARCOS, CON EL DEF PINTAR_TABLERO_BARCOS DE NUEVO
+J2.pintar_tablero_barcos()
+
+
+turno = 1
+while True:
+    if ( turno == 1):
+        ic("Empieza J1, DISPARO A JUGADOR 2")
+        print("J1 dispara")
+        disparoJ1 = J1.disparar_ELEGIDO() # Usamos funcion def disparar_ELEGIDO() contra J2(ACTUALIZACION)
+        print("DISPARO A ", disparoJ1)
+        resultado = J2.recibir_impacto(disparoJ1)
+        ic("USAMOS LA POSICION DEL DISPARO PARA COMPROBAR SI HA HABIDO IMPACTO EN EL TABLERO DE J2")
+        J1.pintar_resultado_disparo(resultado)
+        ic("Actualizamos resultado de disparo en tablero de jugadas")
+        J1.pintar_tablero_jugadas() 
+        if (resultado[1] == "X"): # DISPARO POSITIVO, O TENEMOS OTRO TURNO O PODEMOS HABER GANADO
+            vivo = J2.estado_jugador()
+            ic("PRIMERO CONFIRMAMOS SI HEMOS GANADO, SI HEMOS DADO LOS IMPACTOS SUFICIENTES")
+            if not vivo:
+                print("J1 HA GANADO, ¡¡FELICIDADES!!")
+                break
             else:
-                #jugador2 dispara y apunta el resultado
-                print("jugador2 dispara")
-                posicion2 = self.jugador2.disparar_cpu_inteligente()
-                print(posicion2)
-                resultado2 = self.jugador1.recibir_impacto(posicion2)
-                self.jugador2.pintar_resultado_disparo(resultado2)
-                print("tablero jugadas jugador2")
-                self.jugador2.pintar_tablero_jugadas()
-                self.listaPosicionesHundidas1 = self.jugador1.listaPosicionesHundidas
-                # Dibujar tableros
-                self.dibujar_tablero(self.jugador1.tablero_jugadas, self.listaPosicionesHundidas2,c.MARGEN, 50, "Tablero 1")
-                self.dibujar_tablero(self.jugador2.tablero_jugadas, self.listaPosicionesHundidas1,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2")
-                if(resultado2[1] != "X"):
-                    turno = 1
-                else:
-                    vivo = self.jugador2.estado_jugador()
-                    if not vivo:
-                        print("has ganado jugador2")
-                        winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
-                        break
-            pygame.display.flip()
-  
+                print("J1 ha impactado, le toca nuevamente")
+                ic("El bucle del turno de jugador 1 se reinicia, volvemos a turno 1")
+        else:
+            turno = 2
+            ic("Cambiamos de turno para que le toque al otro jugador")
+       
+    else:
+        ic("TURNO DE J2")
+        print("J2 dispara")
+        disparoJ2 = J2.disparar()
+        print("DISPARO A", disparoJ2)
+        resultado2 = J1.recibir_impacto(disparoJ2)
+        ic("USAMOS LA POSICION DEL DISPARO PARA COMPROBAR SI HA IMPACTADO EN EL TABLERO DE J1")
+        J2.pintar_resultado_disparo(resultado2)
+        ic("Actualizamos resultado de disparo en tablero de jugadas")
+        J2.pintar_tablero_jugadas()
+        if(resultado2[1] == "X"): # Si hemos impactado
+            vivo = J1.estado_jugador()
+            ic("PRIMERO CONFIRMAMOS SI HEMOS GANADO, SI HEMOS DADO LOS IMPACTOS SUFICIENTES")
+            if not vivo:
+                print("J2 HA GANADO, ¡¡FELICIDADES!!")
+                break
+            else:
+                print("J2 ha impactado, le toca nuevamente")
+                ic("Si no hemos ganado, vuelve a tocarle al turno = 2")
+        else:
+            turno = 1
 
+    
 
     def dibujar_tablero(self,tablero, posicionesHundidas,x, y, mensaje):
         '''
@@ -447,11 +522,100 @@ class Juego:
                 print("opcion no valida")
           except Exception:
              print("introduzca (s/n)")
-'''
-condicion = True
-while (condicion):
-    mi_juego = Juego()
-    mi_juego.iniciar_juego()
-    mi_juego.jugar()
-    condicion = mi_juego.jugar_otra_vez()
-'''
+
+class Barco:  # OPCIONAL!!
+    def __init__(self, tamano, posiciones):
+        self.tamano = tamano
+        self.posiciones = posiciones # POSICIONES DE LOS BARCOS, LAS QUEREMOS ELEGIDAS 
+        #PARA EL J1 Y ALEATORIOS PARA LA MAQUINA
+        self.estado = [False] * tamano  # Lista que indica si cada parte del barco ha sido impactada
+
+    def esta_hundido(self):
+        '''Metodo para confirmar si algun barco está hundido tras disparo, afecta SOLO
+        AL BARCO TOCADO,AL OBJETO BARCO CREADO, Y SOLO DEVOLVERA TRUE SI TODAS LAS PARTES DE NUESTRO BARCO IMPACTADO
+        SE HAN HUNDIDO
+        Input: No tiene
+        Output: True or False, dato booleano'''
+        return all(self.estado)
+
+    def recibir_impacto(self, posicion):
+        '''Metodo para comprobar si le han dado a nuestro barco tras un disparo del enemigo
+        Input: posicion del disparo del enemigo, recibida del metodo DISPARAR, tipo de dato TUPLA INT
+        Output: True or False, según haya impactado en nuestros barcos o no, dato bool
+        Relacion con otros métodos: estará relacionado con el método DEF DISPARAR(), que nos dará donde se ha disparado
+        y tambien con donde hemos colocado nosotros los barcos, con el DEF COLOCAR_MANUALMENTE() en caso de 
+        J1 y con DEF COLOCAR_ALEATORIO() para J2'''
+        for i, pos in enumerate(self.posiciones):# RECURREMOS CON UN ENUMERATE INDICE Y POSICIONES DE NUESTROS BARCOS(EN SELF.POSICIONES)
+            if pos == posicion:
+                self.estado[i] = True
+                return True  # El impacto fue exitoso
+        return False  # El impacto no afectó al barco
+    
+    def validar_coordenada(self, nueva_posicion, otros_barcos):# IMPORTANTE, COMO VER LA LISTA DE OTROS BARCOS YA COLOCADOS, DONDE METERLA??
+        '''Valida si es posible colocar el barco en la nueva posición.
+        Input:
+            - nueva_posicion: La nueva posición a validar (fila, columna).
+            - otros_barcos: Una lista de otros barcos en el tablero. VER COMO VISUALIZARLA Y DONDE METER ESTA LISTA!!
+        Output:
+            - True si es posible colocar el barco, False de lo contrario
+        Relacion con otros metodos: Esta relacionado con los metodos DEF COLOCAR_BARCOS()[MANUAL O ALEATORIAMENTE]'''
+        for barco in otros_barcos:
+            for pos in barco.posiciones:
+                if pos == nueva_posicion:
+                    return False  # La posición está ocupada por otro barco
+        return True  # La posición está disponible para colocar el barco
+
+# METODO PARA COLOCAR LOS BARCOS DE FORMA ALEATORIA, PARA LA MAQUINA
+    def colocar_aleatorio(self, tablero_size): 
+        '''Coloca el barco de forma aleatoria en el tablero.
+        Input: Tamaño del tablero (tupla), tipo de dato tuple (10,10)
+        Output: No tiene'''
+        orientacion = random.choice(['horizontal', 'vertical'])
+        if orientacion == 'horizontal':
+            fila = random.randint(0, tablero_size[0] - 1)
+            columna = random.randint(0, tablero_size[1] - self.tamano)
+            self.posiciones = [(fila, columna + i) for i in range(self.tamano)]
+        else:  # orientacion == 'vertical'
+            fila = random.randint(0, tablero_size[0] - self.tamano)
+            columna = random.randint(0, tablero_size[1] - 1)
+            self.posiciones = [(fila + i, columna) for i in range(self.tamano)]
+
+# METODO PARA ELEGIR LA COLOCACION DE LOS BARCOS Y LA ORIENTACION(colocarlo al principio)
+    def colocar_manualmente(self, orientacion, posicion_inicial):
+        '''Coloca el barco manualmente en el tablero.
+        Input:
+            - orientacion: La orientación del barco ('norte', 'sur', 'este' u 'oeste').
+            - posicion_inicial: La posición inicial del barco (fila, columna), en forma de tupla
+        Output: No tiene
+        Relacion con otros metodos: con DEF VALIDAR_COORDENADA(), para confirmar que no hay ningun otro barco ahí'''
+        if orientacion == 'norte':
+            self.posiciones = [(posicion_inicial[0] - i, posicion_inicial[1]) for i in range(self.tamano)]
+        elif orientacion == 'sur':
+            self.posiciones = [(posicion_inicial[0] + i, posicion_inicial[1]) for i in range(self.tamano)]
+        elif orientacion == 'este':
+            self.posiciones = [(posicion_inicial[0], posicion_inicial[1] + i) for i in range(self.tamano)]
+        elif orientacion == 'oeste':
+            self.posiciones = [(posicion_inicial[0], posicion_inicial[1] - i) for i in range(self.tamano)]
+
+# Otro metodo con numpy
+    def colocar_manualmente(self, orientacion, posicion_inicial):
+        '''Coloca el barco manualmente en el tablero.
+        Input:
+            - orientacion: La orientación del barco ('norte', 'sur', 'este' u 'oeste'),dato str
+            - posicion_inicial: La posición inicial del barco (fila, columna).
+        Output: No tiene
+        Relacion con otros metodos: Con DEF VALIDAR_COORDENADA(), para confirmar que no hay ningun
+        barco ya colocado'''
+        direcciones = {'norte': (-1, 0), 'sur': (1, 0), 'este': (0, 1), 'oeste': (0, -1)}
+        fila, columna = posicion_inicial
+        dy, dx = direcciones[orientacion]
+
+        # Generar las posiciones utilizando NumPy
+        posiciones_fila = fila + np.arange(self.tamano) * dy
+        posiciones_columna = columna + np.arange(self.tamano) * dx
+        self.posiciones = list(zip(posiciones_fila, posiciones_columna))
+        
+'''Ejemplo de uso
+barco = Barco(tamano=3, posiciones=[])  # Inicializas el barco con posiciones vacías
+barco.colocar_manualmente(orientacion='norte', posicion_inicial=(5, 5))
+print("Posiciones del barco:", barco.posiciones)'''
