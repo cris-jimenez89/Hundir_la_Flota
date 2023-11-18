@@ -49,7 +49,7 @@ class Tablero:
         if orientacion == 'horizontal':
             fila = random.randint(0, tablero_size[0] - 1)
             columna = random.randint(0, tablero_size[1] - self.tamano)
-            self.posiciones = [(fila, columna + i) for i in range(self.tamano)]
+            self.posiciones = [(fila, columna + i) for i in range(self.tamano)] # para usar este metodo asi, HABRIA QUE TENER UNA CLASE BARCO, PUES EL SELF TAMAÑO DERIVARIA DE ELLA
         else:  # orientacion == 'vertical'
             fila = random.randint(0, tablero_size[0] - self.tamano)
             columna = random.randint(0, tablero_size[1] - 1)
@@ -64,12 +64,8 @@ class Tablero:
             - posicion_inicial: La posición inicial del barco (fila, columna), en forma de tupla
         Output: No tiene
         Relacion con otros metodos: con DEF VALIDAR_COORDENADA(), para confirmar que no hay ningun otro barco ahí'''
-        tamano = self.tipos_barcos.get(tipo_barco, 0) # Obtener el tamaño del barco del diccionario tipos_barcos
-        if tamano == 0:
-        print("Tipo de barco no válido.")
-            return
         if orientacion == 'norte':
-            self.posiciones = [(posicion_inicial[0] - i, posicion_inicial[1]) for i in range(self.tamano)]
+            self.posiciones = [(posicion_inicial[0] - i, posicion_inicial[1]) for i in range(self.tamano)] # para usar este metodo asi, HABRIA QUE TENER UNA CLASE BARCO, PUES EL SELF TAMAÑO DERIVARIA DE ELLA
         elif orientacion == 'sur':
             self.posiciones = [(posicion_inicial[0] + i, posicion_inicial[1]) for i in range(self.tamano)]
         elif orientacion == 'este':
@@ -454,7 +450,7 @@ class Juego:
         ic("Asignamos tablero vacío a jugador 1")
         # SI QUEREMOS VER TABLERO VACIO, DEF PINTAR_TABLERO_BARCOS
         self.jugador1.pintar_tablero_barcos()
-        self.jugador1.colocar_manualmente()
+        self.jugador1.colocar_manualmente() # necesitaremos un bucle, porque tenemos varios barcos que colocar y de distinto tamaño
         ic("Colocamos los barcos del primer jugador, eligiendo posiciones")
         self.jugador1.validar_coordenada() # NO SE COMO METER EL PARAMETRO QUE NECESITA ESTE METODO, NUEVA_POSICION
         self.jugador1.validar_coordenada_para_barco() # NO SE COMO METER EL PARAMETRO QUE NECESITA ESTE METODO, NUEVA_POSICION
@@ -466,7 +462,7 @@ class Juego:
         self.jugador2.pintar_tablero_barcos() # Para verlo vacío SI ES QUE QUEREMOS
         self.jugador2.colocar_aleatorio()
         ic("Colocamos los barcos del segundo jugador, esta vez de manera aleatoria")
-        self.jugador2.def validar_coordenada_para_barco()
+        self.jugador2.validar_coordenada_para_barco()
         ic("Para confirmar que el barco se ha colocado correctamente) 
         # SI QUEREMOS VISUALIZAR LAS POSICIONES DE LOS BARCOS TRAS POSICIONARLOS, LAS IMPRIMIMOS CON EL METODO PINTAR_TABLERO_BARCOS DE NUEVO
         self.jugador2.pintar_tablero_barcos()
