@@ -626,6 +626,10 @@ class Juego:
         turno = 1
         while True:
             if ( turno == 1):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
                 if(self.nivel_dificultad == 1):
                     opcion = self.elegir_opcion_en_turno()
                     if(opcion == 1):
