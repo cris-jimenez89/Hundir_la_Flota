@@ -445,8 +445,9 @@ class Tablero:
                impacto1 = self.posicionesEnemigas[-1]
                impacto2 = self.posicionesEnemigas[-2]
                direccion = self.calcular_direccion(impacto1,impacto2)
-               
-               posiciones_cercanas = self.posiciones_cerca_impacto(impacto1)
+               posiciones_cercanas1 = self.posiciones_cerca_impacto(impacto1)
+               posiciones_cercanas2 = self.posiciones_cerca_impacto(impacto2)
+               posiciones_cercanas = posiciones_cercanas1 + posiciones_cercanas2
                if(direccion == 'n'):
                    return self.disparar_random()
                elif(direccion == 'h'):
@@ -458,8 +459,6 @@ class Tablero:
 
 import pygame
 import sys
-
-
 class Juego:
 
     def __init__(self):
@@ -549,6 +548,78 @@ class Juego:
                 pass
 
 
+    def ejecutar_disparo_en_turno_jugador(self):
+        '''
+        Efectua las acciones del turno disparar. Devuelve al final el truno del siguiente en jugar
+        1 si le vuelve a tocar a el por haber realizado un disparo exitoso previo
+        2 si falla el tiro
+        3 si acierta y gana la partida
+        output: int (1,2 ó 3)
+        '''
+        ic("Empieza J1, DISPARO A JUGADOR 2")
+        print("J1 dispara")
+        disparoJ1 = self.jugador1.disparar_ELEGIDO() # Usamos funcion def disparar_ELEGIDO() contra J2(ACTUALIZACION)
+        print("DISPARO A ", disparoJ1)
+        resultado = self.jugador2.recibir_impacto(disparoJ1)
+        ic("USAMOS LA POSICION DEL DISPARO PARA COMPROBAR SI HA HABIDO IMPACTO EN EL TABLERO DE J2")
+        self.jugador1.pintar_resultado_disparo(resultado)
+        ic("Actualizamos resultado de disparo en tablero de jugadas")
+        self.jugador1.pintar_tablero_jugadas()
+        self.listaPosicionesHundidas2 = self.jugador2.listaPosicionesHundidas
+        self.dibujar_tablero(self.jugador1.tablero_jugadas,self.listaPosicionesHundidas2 ,c.MARGEN, 50, "Tablero 1")
+        self.dibujar_tablero(self.jugador2.tablero_jugadas,self.listaPosicionesHundidas1 ,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2") 
+        if (resultado[1] == "X"): # DISPARO POSITIVO, O TENEMOS OTRO TURNO O PODEMOS HABER GANADO
+            vivo = self.jugador2.estado_jugador()
+            ic("PRIMERO CONFIRMAMOS SI HEMOS GANADO, SI HEMOS DADO LOS IMPACTOS SUFICIENTES")
+            if not vivo:
+                print("J1 HA GANADO, ¡¡FELICIDADES!!")
+                winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
+                return 3
+            else:
+                print("J1 ha impactado, le toca nuevamente")
+                ic("El bucle del turno de jugador 1 se reinicia, volvemos a turno 1")
+                return 1
+        else:
+            ic("Cambiamos de turno para que le toque al otro jugador")
+            return 2
+
+    def ejecutar_disparo_en_turno_cpu(self):       
+        '''
+        Efectua las acciones del turno disparar. Devuelve al final el truno del siguiente en jugar
+        1 si le vuelve a tocar a el por haber realizado un disparo exitoso previo
+        2 si falla el tiro
+        3 si acierta y gana la partida
+        output: int (1,2 ó 3)
+        '''
+        ic("TURNO DE J2")
+        print("J2 dispara")
+        if(self.nivel_dificultad == 0):
+            disparoJ2 = self.jugador2.disparar_random()
+        else:    
+            disparoJ2 = self.jugador2.disparar_cpu_inteligente()
+        print("DISPARO A", disparoJ2)
+        resultado2 = self.jugador1.recibir_impacto(disparoJ2)
+        ic("USAMOS LA POSICION DEL DISPARO PARA COMPROBAR SI HA IMPACTADO EN EL TABLERO DE J1")
+        self.jugador2.pintar_resultado_disparo(resultado2)
+        ic("Actualizamos resultado de disparo en tablero de jugadas")
+        self.jugador2.pintar_tablero_jugadas()
+        self.listaPosicionesHundidas1 = self.jugador1.listaPosicionesHundidas
+        # Dibujar tableros
+        self.dibujar_tablero(self.jugador1.tablero_jugadas, self.listaPosicionesHundidas2,c.MARGEN, 50, "Tablero 1")
+        self.dibujar_tablero(self.jugador2.tablero_jugadas, self.listaPosicionesHundidas1,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2")
+        if(resultado2[1] == "X"): # Si hemos impactado
+            vivo = self.jugador1.estado_jugador()
+            ic("PRIMERO CONFIRMAMOS SI HEMOS GANADO, SI HEMOS DADO LOS IMPACTOS SUFICIENTES")
+            if not vivo:
+                print("J2 HA GANADO, ¡¡FELICIDADES!!")
+                winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
+                return 3
+            else:
+                print("J2 ha impactado, le toca nuevamente")
+                ic("Si no hemos ganado, vuelve a tocarle al turno = 2")
+                return 2
+        else:
+            return 1
 
     def jugar(self):
         '''
@@ -566,31 +637,9 @@ class Juego:
                 if(self.nivel_dificultad == 1):
                     opcion = self.elegir_opcion_en_turno()
                     if(opcion == 1):
-                        ic("Empieza J1, DISPARO A JUGADOR 2")
-                        print("J1 dispara")
-                        disparoJ1 = self.jugador1.disparar_ELEGIDO() # Usamos funcion def disparar_ELEGIDO() contra J2(ACTUALIZACION)
-                        print("DISPARO A ", disparoJ1)
-                        resultado = self.jugador2.recibir_impacto(disparoJ1)
-                        ic("USAMOS LA POSICION DEL DISPARO PARA COMPROBAR SI HA HABIDO IMPACTO EN EL TABLERO DE J2")
-                        self.jugador1.pintar_resultado_disparo(resultado)
-                        ic("Actualizamos resultado de disparo en tablero de jugadas")
-                        self.jugador1.pintar_tablero_jugadas()
-                        self.listaPosicionesHundidas2 = self.jugador2.listaPosicionesHundidas
-                        self.dibujar_tablero(self.jugador1.tablero_jugadas,self.listaPosicionesHundidas2 ,c.MARGEN, 50, "Tablero 1")
-                        self.dibujar_tablero(self.jugador2.tablero_jugadas,self.listaPosicionesHundidas1 ,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2") 
-                        if (resultado[1] == "X"): # DISPARO POSITIVO, O TENEMOS OTRO TURNO O PODEMOS HABER GANADO
-                            vivo = self.jugador2.estado_jugador()
-                            ic("PRIMERO CONFIRMAMOS SI HEMOS GANADO, SI HEMOS DADO LOS IMPACTOS SUFICIENTES")
-                            if not vivo:
-                                print("J1 HA GANADO, ¡¡FELICIDADES!!")
-                                winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
-                                break
-                            else:
-                                print("J1 ha impactado, le toca nuevamente")
-                                ic("El bucle del turno de jugador 1 se reinicia, volvemos a turno 1")
-                        else:
-                            turno = 2
-                            ic("Cambiamos de turno para que le toque al otro jugador")
+                        turno = self.ejecutar_disparo_en_turno_jugador()
+                        if (turno == 3):
+                            break
                     elif (opcion == 2):
                         break
                     else:
@@ -599,61 +648,9 @@ class Juego:
                         self.jugador1.pintar_tablero_barcos()
                         pygame.display.flip()
                 else:
-                    ic("Empieza J1, DISPARO A JUGADOR 2")
-                    print("J1 dispara")
-                    disparoJ1 = self.jugador1.disparar_ELEGIDO() # Usamos funcion def disparar_ELEGIDO() contra J2(ACTUALIZACION)
-                    print("DISPARO A ", disparoJ1)
-                    resultado = self.jugador2.recibir_impacto(disparoJ1)
-                    ic("USAMOS LA POSICION DEL DISPARO PARA COMPROBAR SI HA HABIDO IMPACTO EN EL TABLERO DE J2")
-                    self.jugador1.pintar_resultado_disparo(resultado)
-                    ic("Actualizamos resultado de disparo en tablero de jugadas")
-                    self.jugador1.pintar_tablero_jugadas()
-                    self.listaPosicionesHundidas2 = self.jugador2.listaPosicionesHundidas
-                    self.dibujar_tablero(self.jugador1.tablero_jugadas,self.listaPosicionesHundidas2 ,c.MARGEN, 50, "Tablero 1")
-                    self.dibujar_tablero(self.jugador2.tablero_jugadas,self.listaPosicionesHundidas1 ,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2") 
-                    if (resultado[1] == "X"): # DISPARO POSITIVO, O TENEMOS OTRO TURNO O PODEMOS HABER GANADO
-                        vivo = self.jugador2.estado_jugador()
-                        ic("PRIMERO CONFIRMAMOS SI HEMOS GANADO, SI HEMOS DADO LOS IMPACTOS SUFICIENTES")
-                        if not vivo:
-                            print("J1 HA GANADO, ¡¡FELICIDADES!!")
-                            winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
-                            break
-                        else:
-                            print("J1 ha impactado, le toca nuevamente")
-                            ic("El bucle del turno de jugador 1 se reinicia, volvemos a turno 1")
-                    else:
-                        turno = 2
-                        ic("Cambiamos de turno para que le toque al otro jugador")
-
+                    turno = self.ejecutar_disparo_en_turno()
             else:
-                ic("TURNO DE J2")
-                print("J2 dispara")
-                if(self.nivel_dificultad == 0):
-                    disparoJ2 = self.jugador2.disparar_random()
-                else:    
-                    disparoJ2 = self.jugador2.disparar_cpu_inteligente()
-                print("DISPARO A", disparoJ2)
-                resultado2 = self.jugador1.recibir_impacto(disparoJ2)
-                ic("USAMOS LA POSICION DEL DISPARO PARA COMPROBAR SI HA IMPACTADO EN EL TABLERO DE J1")
-                self.jugador2.pintar_resultado_disparo(resultado2)
-                ic("Actualizamos resultado de disparo en tablero de jugadas")
-                self.jugador2.pintar_tablero_jugadas()
-                self.listaPosicionesHundidas1 = self.jugador1.listaPosicionesHundidas
-                # Dibujar tableros
-                self.dibujar_tablero(self.jugador1.tablero_jugadas, self.listaPosicionesHundidas2,c.MARGEN, 50, "Tablero 1")
-                self.dibujar_tablero(self.jugador2.tablero_jugadas, self.listaPosicionesHundidas1,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2")
-                if(resultado2[1] == "X"): # Si hemos impactado
-                    vivo = self.jugador1.estado_jugador()
-                    ic("PRIMERO CONFIRMAMOS SI HEMOS GANADO, SI HEMOS DADO LOS IMPACTOS SUFICIENTES")
-                    if not vivo:
-                        print("J2 HA GANADO, ¡¡FELICIDADES!!")
-                        winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
-                        break
-                    else:
-                        print("J2 ha impactado, le toca nuevamente")
-                        ic("Si no hemos ganado, vuelve a tocarle al turno = 2")
-                else:
-                    turno = 1
+                self.ejecutar_disparo_en_turno_cpu()
             pygame.display.flip()
     
 
