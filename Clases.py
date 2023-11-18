@@ -532,7 +532,7 @@ class Juego:
                 print("2- Salir de la partida")
                 print("3- Mostrar mis barcos")
                 opcion = int(input("seleccione opcion (1, 2 ó 3)"))
-                if opcion == 0 or opcion == 1 or opcion == 3:
+                if opcion == 1 or opcion == 2 or opcion == 3:
                     return opcion
                 else:
                     print("entrada invalida, introduzca 1,2 ó 3")
@@ -622,14 +622,15 @@ class Juego:
                   pintar_taablero2, winsound.Playsound,
                   dibujar_tablero
         '''
-        
+        salir = False
         turno = 1
-        while True:
+        while not salir:
             for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         sys.exit()
             self.pantalla.fill(c.BLANCO)
+            
             if ( turno == 1):
                 
                 if(self.nivel_dificultad == 1):
@@ -637,8 +638,10 @@ class Juego:
                     if(opcion == 1):
                         turno = self.ejecutar_disparo_en_turno_jugador()
                         if(turno == 3):
+                            salir = True
                             break
                     elif(opcion == 2):
+                        salir = True
                         break
                     else:
                         self.dibujar_tablero(self.jugador1.tablero_barcos,self.listaPosicionesHundidas2 ,c.MARGEN, 50, "Tablero 1")
