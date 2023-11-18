@@ -1,7 +1,4 @@
 from Clases import Juego
-
-
-
     
 def main():
     condicion = True
