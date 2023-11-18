@@ -235,9 +235,11 @@ class Tablero:
         ic("analizamos resultado de disparo y actualizamos el numero de impactos que quedan para ganar")
         if (self.tablero_barcos[pos[0]][pos[1]] == "~"):
             print("AGUA")
+            winsound.PlaySound('sonidos/splash.wav',winsound.SND_FILENAME)
             return (pos,"O")
         else:
             print("TOCADO")
+            winsound.PlaySound('sonidos/explosion.wav',winsound.SND_FILENAME)
             self.numero_impactos = self.numero_impactos + 1
             print("LLEVAMOS",self.numero_impactos)
             return(pos,"X")
@@ -384,21 +386,17 @@ class Tablero:
         
         posiciones_cercanas_h = []
         posx = impacto1[0]
-        posy = impacto1[1]
+        
         for i in posiciones_cercanas:
             if(posx == i[0]):
                 posiciones_cercanas_h.append(i)
-            # añadir aqui resto de elementos con radio hasta 4 en posy de impacto1
-            # hacer lo mismo en cerca_v
-        if posy + 2 < 10 and posy -2 >= 0:    
-            posiciones_cercanas_h.append((posx,posy-2))
-            posiciones_cercanas_h.append((posx,posy+2))
+        
         if(len(posiciones_cercanas_h) != 0):
             posicion = posiciones_cercanas_h.pop()
             self.posiciones_probadas.append(posicion)
             return posicion
         else:
-                return self.disparar_random() 
+            return self.disparar_random() 
 
     def disparar_cerca_dir_v(self,posiciones_cercanas,impacto1):
         '''
@@ -407,22 +405,18 @@ class Tablero:
         output: posicion:tupla
         relacion: disparar_random
         '''
-
         posiciones_cercanas_v = []
-        posx = impacto1[0]
         posy = impacto1[1]
         for i in posiciones_cercanas:
             if(posy == i[1]):
                 posiciones_cercanas_v.append(i)
-            if posx + 2 < 10 and posx -2 >= 0:    
-                posiciones_cercanas_v.append((posx-2,posy))
-                posiciones_cercanas_v.append((posx+2,posy))
-            if(len(posiciones_cercanas_v) != 0):
-                posicion = posiciones_cercanas_v.pop()
-                self.posiciones_probadas.append(posicion)
-                return posicion
-            else:
-                return self.disparar_random() 
+            
+        if(len(posiciones_cercanas_v) != 0):
+            posicion = posiciones_cercanas_v.pop()
+            self.posiciones_probadas.append(posicion)
+            return posicion
+        else:
+            return self.disparar_random() 
 
     def disparar_cpu_inteligente(self):
         '''
@@ -454,8 +448,6 @@ class Tablero:
                    return self.disparar_cerca_dir_h(posiciones_cercanas,impacto1)
                else:
                    return self.disparar_cerca_dir_v(posiciones_cercanas,impacto1)
-
-
 
 import pygame
 import sys
@@ -804,3 +796,9 @@ class Barco:  # OPCIONAL!!
         posiciones_columna = columna + np.arange(self.tamano) * dx
         self.posiciones = list(zip(posiciones_fila, posiciones_columna))
         
+condicion = True
+while (condicion):
+    mi_juego = Juego()
+    mi_juego.iniciar_juego()
+    mi_juego.jugar()
+    condicion = mi_juego.jugar_otra_vez()
