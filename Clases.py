@@ -25,77 +25,39 @@ class Tablero:
     
     
     def colocar_barcos(self):
-        print("colocar barcos")
-        for i in self.posiciones:
-           self.pintar_barco(i)
+       pass
     
     def pintar_tablero_barcos(self):
-        print("pintar tablero barcos")
-        for i in range(10):
-            for j in range(10):
-                print(self.tablero_barcos[i][j],end =" ")
-            print(" ")
+        pass
 
     def pintar_tablero_jugadas(self):
-        print("pintar tablero jugadas")
-        for i in range(10):
-            for j in range(10):
-                print(self.tablero_jugadas[i][j],end =" ")
-            print(" ")    
+        pass
 
     def pintar_barco(self,posiciones):
-        print("pintar barco")
-        for i in posiciones:
-            self.tablero_barcos[i[0]][i[1]] = 'B'
+        pass
 
     def pintar_resultado_disparo(self,resultado):
-        print("pintar resultado")
-        pos = resultado[0]
-        posx = pos[0]
-        posy = pos[1]
-        caracter = resultado[1]
-        self.tablero_jugadas[posx][posy] = caracter
+        pass
         
     
     def recibir_impacto(self,pos):
-        print("recibir_impacto")
-        if(self.tablero_barcos[pos[0]][pos[1]] == "~"):
-            print("agua")
-            winsound.PlaySound("sonidos/splash.wav",winsound.SND_FILENAME)
-            return [pos,"O"]
-        else:
-            print("tocado")
-            winsound.PlaySound("sonidos/explosion.wav",winsound.SND_FILENAME)
-            self.numero_impactos = self.numero_impactos + 1
-            print(self.numero_impactos)
-            return [pos,"X"]
-
+       pass
     def estado_jugador(self):
-        print("estado_jugador")
-        vivo = True
-        if(self.numero_impactos == 20):
-            vivo = False
-        return vivo
+        pass
 
     def disparar(self):
-        print("disparar")
-        while True:
-            posx = random.randint(0,9)
-            posy = random.randint(0,9)
-            print((posx,posy))
-            if((posx,posy) not in self.posiciones_probadas):
-                self.posiciones_probadas.append((posx,posy))
-                print(self.posiciones_probadas)
-                return(posx,posy)
-            else:
-                print("posicion repetida")    
+        pass
 
     
 
     def posiciones_de_(self,c):
         '''
-        Devuelve las posiciones del caracter c en tablero jugadas
-        output: posiciones_enemigas:lista 
+        Devuelve las posiciones del caracter c en tablero jugadas.
+        Existen 3 caracteres distintos en tablero_jugadas:
+          "X":marca impacto
+          "~":marca casilla no probada aun
+          "O":marca agua o tiro fallido
+        output: posiciones:lista 
         '''
         #ic("posiciones_de")
         posiciones = []
@@ -107,7 +69,10 @@ class Tablero:
     
     def posiciones_cerca_impacto(self,pos):
         '''
-        Da las posiciones cercana al impacto 
+        Da las posiciones cercana al impacto. Si la posicion es en una de las esquinas
+        solo tendra dos posibles posiciones cercanas(siempre que no hayan sido probadas previamente).
+        Si pos se encuentra en uno de los bordes del tablero tendra tres potenciales posiciones cercanas
+        En otra tendra 4 potenciales posiciones cercanas 
         output: posiciones:lista
         '''
         posiciones = []
@@ -181,7 +146,8 @@ class Tablero:
     
     def disparar_random(self):
         '''
-        Dispara a posicion seleccionada de forma random
+        Dispara a posicion seleccionada de forma random.
+        Siempre dispara a una posicion no probada
         output: posicion:tupla
         '''
         while True:
@@ -199,13 +165,14 @@ class Tablero:
     def calcular_direccion(self,impacto1,impacto2):
         '''
         Calcular si existe relacion entre las 2 ultimas posiciones Enemigas
-        output: dir: char (h/v)
+        output: dir: char (h/v/n)
         '''
         if(impacto1[0] == impacto2[0]):
             return 'h'
         elif(impacto1[1] == impacto2[1]):
             return 'v'
         else:
+            #no existe relacion
             return 'n'
 
     def disparar_cerca_impacto(self):
@@ -274,10 +241,12 @@ class Tablero:
 
     def disparar_cpu_inteligente(self):
         '''
-        Dispara de forma inteligente
+        Dispara de forma inteligente, obteniendo las posiciones disponibles cerca de un impacto dado
+        y probando disparar sobre una de estas posiciones
         output: (x,y): tupla
         relacion: posiciones_de,posiciones_cerca_impacto
-                  disparar_random, calcular_direccion
+                  disparar_random, calcular_direccion,
+                  disparar_cerca_dir_h,disparar_cerca_dir_v
         '''
         #ic("disparar_cpu_inteligente")
         self.posicionesEnemigas = self.posiciones_de_('X')
@@ -294,7 +263,9 @@ class Tablero:
                impacto2 = self.posicionesEnemigas[-2]
                direccion = self.calcular_direccion(impacto1,impacto2)
                
-               posiciones_cercanas = self.posiciones_cerca_impacto(impacto1)
+               posiciones_cercanas1 = self.posiciones_cerca_impacto(impacto1)
+               posiciones_cercanas2 = self.posiciones_cerca_impacto(impacto2)
+               posiciones_cercanas = posiciones_cercanas1 + posiciones_cercanas2
                if(direccion == 'n'):
                    return self.disparar_random()
                elif(direccion == 'h'):
@@ -325,11 +296,10 @@ class Juego:
 
     def iniciar_juego(self):
         '''
-        Genera la flota para ambos jugadores
-        relacion: generar_flota
+        Genera la flota para ambos jugadores y coloca los barcos
+        relacion: 
         '''
-        self.jugador1.colocar_barcos()
-        self.jugador2.colocar_barcos()
+        pass
 
     def jugar(self):
         '''
@@ -341,58 +311,16 @@ class Juego:
                   dibujar_tablero
         '''
         # AQUI VA EL BUCLE DEL JUEGO
-        turno = 1
-        while True:
-            if ( turno == 1):
-                #jugador1 dispara y apunta el resultado
-                print("jugador1 dispara")
-                posicion = self.jugador1.disparar()
-                print(posicion)
-                resultado = self.jugador2.recibir_impacto(posicion)
-                self.jugador1.pintar_resultado_disparo(resultado)
-                print("tablero jugadas jugador1")
-                self.jugador1.pintar_tablero_jugadas()
-                self.listaPosicionesHundidas2 = self.jugador2.listaPosicionesHundidas
-                self.dibujar_tablero(self.jugador1.tablero_jugadas,self.listaPosicionesHundidas2 ,c.MARGEN, 50, "Tablero 1")
-                self.dibujar_tablero(self.jugador2.tablero_jugadas,self.listaPosicionesHundidas1 ,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2")
-
-                if (resultado[1] != "X"):
-                    turno = 2
-                else:
-                    vivo = self.jugador2.estado_jugador()
-                    if not vivo:
-                        print("has ganado jugador1")
-                        winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
-                        break
-       
-            else:
-                #jugador2 dispara y apunta el resultado
-                print("jugador2 dispara")
-                posicion2 = self.jugador2.disparar_cpu_inteligente()
-                print(posicion2)
-                resultado2 = self.jugador1.recibir_impacto(posicion2)
-                self.jugador2.pintar_resultado_disparo(resultado2)
-                print("tablero jugadas jugador2")
-                self.jugador2.pintar_tablero_jugadas()
-                self.listaPosicionesHundidas1 = self.jugador1.listaPosicionesHundidas
-                # Dibujar tableros
-                self.dibujar_tablero(self.jugador1.tablero_jugadas, self.listaPosicionesHundidas2,c.MARGEN, 50, "Tablero 1")
-                self.dibujar_tablero(self.jugador2.tablero_jugadas, self.listaPosicionesHundidas1,c.ANCHO - c.TAM_CASILLA * 10 - c.MARGEN, 50, "Tablero 2")
-                if(resultado2[1] != "X"):
-                    turno = 1
-                else:
-                    vivo = self.jugador2.estado_jugador()
-                    if not vivo:
-                        print("has ganado jugador2")
-                        winsound.PlaySound("sonidos/tada.wav",winsound.SND_FILENAME)
-                        break
-            pygame.display.flip()
-  
+        pass
 
 
     def dibujar_tablero(self,tablero, posicionesHundidas,x, y, mensaje):
         '''
-        Pinta el tablero en pantalla
+        Pinta el tablero en la pantalla pygame
+        inputs: tablero:numpy.array
+                posicionesHundidas:lista
+                x,y :int
+                mensaje:str
         '''
         # Dibujar etiqueta del tablero
         fuente = pygame.font.Font(None, 36)
@@ -447,11 +375,3 @@ class Juego:
                 print("opcion no valida")
           except Exception:
              print("introduzca (s/n)")
-'''
-condicion = True
-while (condicion):
-    mi_juego = Juego()
-    mi_juego.iniciar_juego()
-    mi_juego.jugar()
-    condicion = mi_juego.jugar_otra_vez()
-'''
