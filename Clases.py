@@ -65,7 +65,7 @@ class Tablero:
         Output:No tiene, sirve para pintar los barcos tras  generar sus posiciones
         Relacion con otros métodos: Depende directamente del método def pintar_barco() y se sirve del atributo 
         de clase Tablero SELF.POSICIONES para colocarlos en el tablero de los barcos'''
-        ic("Colocar los barcos")
+        #ic("Colocar los barcos")
         print("Colocar barcos")
         for i in self.posiciones:
             self.pintar_barco(i)
@@ -600,7 +600,7 @@ class Juego:
             print("Opción no válida.")
             return
 
-        ic("Ahora, colocamos la flota de jugador 2, que se solicita que sea siempre aleatoria")
+        #ic("Ahora, colocamos la flota de jugador 2, que se solicita que sea siempre aleatoria")
         self.jugador2.generar_flota_random()
              
 
@@ -798,10 +798,5 @@ class Juego:
           except Exception:
              print("introduzca (s/n)")
 
-condicion = True
-while (condicion):
-        mi_juego = Juego()
-        mi_juego.iniciar_juego()
-        mi_juego.jugar()
-        condicion = mi_juego.jugar_otra_vez()
+
 
