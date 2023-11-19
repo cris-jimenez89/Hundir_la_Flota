@@ -21,6 +21,7 @@ class Tablero:
         self.posiciones_probadas = []
         self.posicionesEnemigas = [] 
         self.listaPosicionesHundidas = []
+        self.listaposiciones = []  # Lista de tuplas, todas las B que hay en el tablero
     
     def generar_flota(self):
         '''
@@ -53,8 +54,6 @@ class Tablero:
             self.pintar_barco(i)
 
         
-
-
     def pintar_barco(self,posiciones):
         '''
         Pintamos una B donde haya una posición de barco
@@ -65,6 +64,150 @@ class Tablero:
             posx = i[0]
             posy = i[1]
             self.tablero_barcos[posx][posy] = "B"
+
+    def colocar_barco_aleatorio_o_elegido(self):
+        '''Método para colocar los barcos en el tablero barcos tras elegir posicion
+        o tras generarlos de forma aleatoria
+        Input: No tiene
+        Output:No tiene, sirve para pintar los barcos tras  generar sus posiciones
+        Relacion con otros métodos: Depende directamente del método def pintar_barco() y se sirve del atributo 
+        de clase Tablero SELF.POSICIONES para colocarlos en el tablero de los barcos'''
+        ic("Colocar los barcos")
+        print("Colocar barcos")
+        for i in self.posiciones:
+            self.pintar_barco(i)
+
+    def generar_barco_aleatorio(self,tamanio,direccion):
+        '''Genera los barcos
+        Entradas: tamanio: Tamaño del barco.
+        direccion: Dirección en la que se generará el barco.
+        Salidas:No tiene salidas explícitas, ya que simplemente actualiza las listas de posiciones (self.posiciones y self.listaposiciones).
+        Relaciones con otros metodos:Utiliza el tamaño del barco y la dirección para generar posiciones aleatorias que se almacenan en self.posiciones.
+        Actualiza self.listaposiciones con las nuevas posiciones generadas.'''
+    
+        if (tamanio == 1):
+            while True:
+                posx = random.randint(0,9)
+                posy = random.randint(0,9)
+                if((posx,posy) not in self.listaposiciones):
+                    self.posiciones.append([(posx,posy)])
+                    self.listaposiciones.append((posx,posy))
+                    return [self.posiciones,self.listaposiciones]
+        elif(tamanio == 2):
+            while True:
+                posx = random.randint(1,8)
+                posy = random.randint(1,8)
+                if(direccion == 'n'):
+                    posx2 = posx - 1
+                    posy2 = posy
+                elif(direccion == 's'):
+                    posx2 = posx + 1
+                    posy2 = posy
+                elif(direccion == 'e'):
+                    posx2 = posx
+                    posy2 = posy + 1
+                else:
+                    posx2 = posx
+                    posy2 = posy - 1
+                    if((posx,posy) not in self.listaposiciones and (posx2,posy2) not in self.listaposiciones):
+                    self.posiciones.append([(posx,posy),(posx2,posy2)])
+                    self.listaposiciones.append((posx,posy))
+                    self.listaposiciones.append((posx2,posy2))
+                    return [self.posiciones,self.listaposiciones]
+        elif (tamanio == 3):
+            while True:
+                posx = random.randint(2,7)
+                posy = random.randint(2,7)
+                if(direccion == 'n'):
+                    posx2 = posx - 1
+                    posy2 = posy
+                    posx3 = posx - 2
+                    posy3 = posy
+                elif(direccion == 's'):
+                    posx2 = posx + 1
+                    posy2 = posy
+                    posx3 = posx + 2
+                    posy3 = posy
+                elif(direccion == 'e'):
+                    posx2 = posx
+                    posy2 = posy + 1
+                    posx3 = posx
+                    posy3 = posy + 2
+                else:
+                    posx2 = posx
+                    posy2 = posy - 1
+                    posx3 = posx
+                    posy3 = posy - 2
+                if((posx,posy) not in self.self.listaposiciones
+                    and (posx2,posy2) not in self.listaposiciones
+                    and (posx3,posy3) not in self.listaposiciones):
+                    self.posiciones.append([(posx,posy),(posx2,posy2),(posx3,posy3)])
+                    self.listaposiciones.append((posx,posy))
+                    self.listaposiciones.append((posx2,posy2))
+                    self.listaposiciones.append((posx3,posy3))
+                    return [self.posiciones,self.listaposiciones]
+        else:
+            while True:
+                posx = random.randint(3,6)
+                posy = random.randint(3,6)
+                if(direccion == 'n'):
+                    posx2 = posx - 1
+                    posy2 = posy
+                    posx3 = posx - 2
+                    posy3 = posy
+                    posx4 = posx - 3
+                    posy4 = posy
+                elif(direccion == 's'):
+                    posx2 = posx + 1
+                    posy2 = posy
+                    posx3 = posx + 2
+                    posy3 = posy
+                    posx4 = posx + 3
+                    posy4 = posy
+                elif(direccion == 'e'):
+                    posx2 = posx
+                    posy2 = posy + 1
+                    posx3 = posx
+                    posy3 = posy + 2
+                    posx4 = posx
+                    posy4 = posy + 3
+                else:
+                    posx2 = posx
+                    posy2 = posy - 1
+                    posx3 = posx
+                    posy3 = posy - 2
+                    posx4 = posx
+                    posy4 = posy - 3
+                if((posx,posy) not in self.listaposiciones
+                    and (posx2,posy2) not in self.listaposiciones
+                    and (posx3,posy3) not in self.listaposiciones
+                    and (posx4,posy4) not in self.listaposiciones):
+                    self.posiciones.append([(posx,posy),(posx2,posy2),(posx3,posy3),(posx4,posy4)])
+                    self.listaposiciones.append((posx,posy))
+                    self.listaposiciones.append((posx2,posy2))
+                    self.listaposiciones.append((posx3,posy3))
+                    self.listaposiciones.append((posx4,posy4))
+                    return[self.posiciones,self.listaposiciones]
+            
+    def generar_flota_random(self):
+    '''
+        Genera la flota de forma aleatoria
+        Input: No tiene
+        Output: No tiene salidas, solo introduce en self.posiciones y self.listas posiciones los barcos que se necesitan
+        Relacion con otros metodos: Utiliza el diccionario self.tipos_barcos que contiene información sobre el tamaño y la cantidad de cada tipo de barco.
+        Llama al método generar_barco_aleatorio para cada tipo de barco y dirección aleatoria, lo que afecta las listas de posiciones (self.posiciones y self.listaposiciones).
+        Imprime las posiciones de los barcos y las listas de posiciones después de generar cada barco.
+    '''
+        for i in self.tipos_barcos.keys():
+            for j in range(self.tipos_barcos[i]):
+                direccion = random.choices(['n','s','e','o'])
+                tamanio = i
+                res= self.generar_barco_aleatorio(tamanio,direccion.self.posiciones,self.listaposiciones)
+                self.posiciones = res[0]
+                self.listaposiciones = res[1]
+       
+
+
 
     def estado_jugador(self):
         '''
@@ -651,95 +794,3 @@ class Juego:
           except Exception:
              print("introduzca (s/n)")
 
-class Barco:  # OPCIONAL!!
-    def __init__(self, tamano, posiciones):
-        self.tamano = tamano
-        self.posiciones = posiciones # POSICIONES DE LOS BARCOS, LAS QUEREMOS ELEGIDAS 
-        #PARA EL J1 Y ALEATORIOS PARA LA MAQUINA
-        self.estado = [False] * tamano  # Lista que indica si cada parte del barco ha sido impactada
-
-    def esta_hundido(self):
-        '''Metodo para confirmar si algun barco está hundido tras disparo, afecta SOLO
-        AL BARCO TOCADO,AL OBJETO BARCO CREADO, Y SOLO DEVOLVERA TRUE SI TODAS LAS PARTES DE NUESTRO BARCO IMPACTADO
-        SE HAN HUNDIDO
-        Input: No tiene
-        Output: True or False, dato booleano'''
-        return all(self.estado)
-
-    def recibir_impacto(self, posicion):
-        '''Metodo para comprobar si le han dado a nuestro barco tras un disparo del enemigo
-        Input: posicion del disparo del enemigo, recibida del metodo DISPARAR, tipo de dato TUPLA INT
-        Output: True or False, según haya impactado en nuestros barcos o no, dato bool
-        Relacion con otros métodos: estará relacionado con el método DEF DISPARAR(), que nos dará donde se ha disparado
-        y tambien con donde hemos colocado nosotros los barcos, con el DEF COLOCAR_MANUALMENTE() en caso de 
-        J1 y con DEF COLOCAR_ALEATORIO() para J2'''
-        for i, pos in enumerate(self.posiciones):# RECURREMOS CON UN ENUMERATE INDICE Y POSICIONES DE NUESTROS BARCOS(EN SELF.POSICIONES)
-            if pos == posicion:
-                self.estado[i] = True
-                return True  # El impacto fue exitoso
-        return False  # El impacto no afectó al barco
-    
-    def validar_coordenada(self, nueva_posicion, otros_barcos):# IMPORTANTE, COMO VER LA LISTA DE OTROS BARCOS YA COLOCADOS, DONDE METERLA??
-        '''Valida si es posible colocar el barco en la nueva posición.
-        Input:
-            - nueva_posicion: La nueva posición a validar (fila, columna).
-            - otros_barcos: Una lista de otros barcos en el tablero. VER COMO VISUALIZARLA Y DONDE METER ESTA LISTA!!
-        Output:
-            - True si es posible colocar el barco, False de lo contrario
-        Relacion con otros metodos: Esta relacionado con los metodos DEF COLOCAR_BARCOS()[MANUAL O ALEATORIAMENTE]'''
-        for barco in otros_barcos:
-            for pos in barco.posiciones:
-                if pos == nueva_posicion:
-                    return False  # La posición está ocupada por otro barco
-        return True  # La posición está disponible para colocar el barco
-
-    # METODO PARA COLOCAR LOS BARCOS DE FORMA ALEATORIA, PARA LA MAQUINA
-    def colocar_aleatorio(self, tablero_size): 
-        '''Coloca el barco de forma aleatoria en el tablero.
-        Input: Tamaño del tablero (tupla), tipo de dato tuple (10,10)
-        Output: No tiene'''
-        orientacion = random.choice(['horizontal', 'vertical'])
-        if orientacion == 'horizontal':
-            fila = random.randint(0, tablero_size[0] - 1)
-            columna = random.randint(0, tablero_size[1] - self.tamano)
-            self.posiciones = [(fila, columna + i) for i in range(self.tamano)]
-        else:  # orientacion == 'vertical'
-            fila = random.randint(0, tablero_size[0] - self.tamano)
-            columna = random.randint(0, tablero_size[1] - 1)
-            self.posiciones = [(fila + i, columna) for i in range(self.tamano)]
-
-    # METODO PARA ELEGIR LA COLOCACION DE LOS BARCOS Y LA ORIENTACION(colocarlo al principio)
-    def colocar_manualmente(self, orientacion, posicion_inicial):
-        '''Coloca el barco manualmente en el tablero.
-        Input:
-            - orientacion: La orientación del barco ('norte', 'sur', 'este' u 'oeste').
-            - posicion_inicial: La posición inicial del barco (fila, columna), en forma de tupla
-        Output: No tiene
-        Relacion con otros metodos: con DEF VALIDAR_COORDENADA(), para confirmar que no hay ningun otro barco ahí'''
-        if orientacion == 'norte':
-            self.posiciones = [(posicion_inicial[0] - i, posicion_inicial[1]) for i in range(self.tamano)]
-        elif orientacion == 'sur':
-            self.posiciones = [(posicion_inicial[0] + i, posicion_inicial[1]) for i in range(self.tamano)]
-        elif orientacion == 'este':
-            self.posiciones = [(posicion_inicial[0], posicion_inicial[1] + i) for i in range(self.tamano)]
-        elif orientacion == 'oeste':
-            self.posiciones = [(posicion_inicial[0], posicion_inicial[1] - i) for i in range(self.tamano)]
-
-    # Otro metodo con numpy
-    def colocar_manualmente_numpy(self, orientacion, posicion_inicial):
-        '''Coloca el barco manualmente en el tablero.
-        Input:
-            - orientacion: La orientación del barco ('norte', 'sur', 'este' u 'oeste'),dato str
-            - posicion_inicial: La posición inicial del barco (fila, columna).
-        Output: No tiene
-        Relacion con otros metodos: Con DEF VALIDAR_COORDENADA(), para confirmar que no hay ningun
-        barco ya colocado'''
-        direcciones = {'norte': (-1, 0), 'sur': (1, 0), 'este': (0, 1), 'oeste': (0, -1)}
-        fila, columna = posicion_inicial
-        dy, dx = direcciones[orientacion]
-        '''
-        # Generar las posiciones utilizando NumPy
-        posiciones_fila = fila + np.arange(self.tamano) * dy
-        posiciones_columna = columna + np.arange(self.tamano) * dx
-        self.posiciones = list(zip(posiciones_fila, posiciones_columna))
-        '''
