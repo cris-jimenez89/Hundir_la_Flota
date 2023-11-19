@@ -23,13 +23,6 @@ class Tablero:
         self.listaPosicionesHundidas = []
         self.listaposiciones = []  # Lista de tuplas, todas las B que hay en el tablero
     
-    def generar_flota(self):
-        '''
-        Genera la flota de barcos
-        '''
-        for i in self.tipos_barcos.keys():
-            for j in range(self.tipos_barcos[i]):
-                pass
 
     
     def pintar_tablero_barcos(self):
@@ -568,35 +561,49 @@ class Juego:
             except Exception:
                 pass
 
+    def elegir_metodo_colocacion(self):
+        '''Metodo para elegir el tipo de colocacion que deseamos para nuestros barcos.
+        Input: No tiene
+        Output: opcion elegida, dato int'''
+        while True:
+            try:
+                print("Por favor, Elige un método de colocación:")
+                print("1. Aleatorio")
+                print("2. Posiciones fijas")
+                print("3. Posiciones elegidas por jugador")
+                opcion = int(input("Ingresa el número de la opción elegida: "))
+                if opcion == 1 or opcion == 2 or opcion == 3:
+                    return opcion
+            except:
+                pass
+
     def iniciar_juego(self):
         '''
         Genera la flota para ambos jugadores
         Aqui tambien podra influir el nivel
         relacion: 
         '''
+        ic("Para elegir nivel de dificultad deseado")
         self.nivel_dificultad = self.elegir_nivel()
-        self.jugador1.colocar_barcos()
-        self.jugador2.colocar_barcos()
-        '''     
-        ic("Asignamos tablero vacío a jugador 1")
-        # SI QUEREMOS VER TABLERO VACIO, DEF PINTAR_TABLERO_BARCOS
-        self.jugador1.pintar_tablero_barcos()
-        self.jugador1.colocar_manualmente() # necesitaremos un bucle, porque tenemos varios barcos que colocar y de distinto tamaño
-        ic("Colocamos los barcos del primer jugador, eligiendo posiciones")
-        self.jugador1.validar_coordenada() # NO SE COMO METER EL PARAMETRO QUE NECESITA ESTE METODO, NUEVA_POSICION
-        self.jugador1.validar_coordenada_para_barco() # NO SE COMO METER EL PARAMETRO QUE NECESITA ESTE METODO, NUEVA_POSICION
-        ic("Para confirmar que el barco se ha colocado correctamente")
-        # SI QUEREMOS VISUALIZAR LAS POSICIONES DE LOS BARCOS TRAS POSICIONARLOS, LAS IMPRIMIMOS CON EL METODO PINTAR_TABLERO_BARCOS DE NUEVO
-        self.jugador1.pintar_tablero_barcos()
+        ic("Para que jugador 1 elija que tipo de metodo usará para colocar los barcos")
+        opcion_colocacion = self.jugador1.elegir_metodo_colocacion()
+        if opcion_colocacion == "1":
+            self.generar_flota_random()# Posiciones aleatorias
+            self.colocar_barco_aleatorio_o_elegido()
+        elif opcion_colocacion == "2":
+            self.colocar_barcos()# Posiciones fijas            
+        elif opcion_colocacion == "3":
+            self.colocar_barcos_fijos() #NOMBRE DE METODO ROCIO# eligiendo nosotros la posicion, PENDIENTE DE INCLUIR
+            self.colocar_barco_aleatorio_o_elegido()
+        else:
+            print("Opción no válida.")
+            return
 
-        ic("Hacemos lo mismo con jugador 2, la maquina")
-        self.jugador2.pintar_tablero_barcos() # Para verlo vacío SI ES QUE QUEREMOS
-        self.jugador2.colocar_aleatorio()
-        ic("Colocamos los barcos del segundo jugador, esta vez de manera aleatoria")
-        self.jugador2.validar_coordenada_para_barco()
-        ic("Para confirmar que el barco se ha colocado correctamente") 
-        # SI QUEREMOS VISUALIZAR LAS POSICIONES DE LOS BARCOS TRAS POSICIONARLOS, LAS IMPRIMIMOS CON EL METODO PINTAR_TABLERO_BARCOS DE NUEVO
-        self.jugador2.pintar_tablero_barcos()
+        ic("Ahora, colocamos la flota de jugador 2, que se solicita que sea siempre aleatoria")
+        self.jugador2.generar_flota_random()
+             
+
+   
         '''
 
     def elegir_opcion_en_turno(self):
