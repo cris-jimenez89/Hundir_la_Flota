@@ -52,68 +52,6 @@ class Tablero:
         for i in self.posiciones_fijas:
             self.pintar_barco(i)
 
-    # METODO PARA COLOCAR LOS BARCOS DE FORMA ALEATORIA, PARA LA MAQUINA
-    def colocar_aleatorio(self, tablero_size): 
-        '''
-        Coloca el barco de forma aleatoria en el tablero.
-        Input: Tamaño del tablero:tupla
-        '''
-        orientacion = random.choice(['horizontal', 'vertical'])
-        if orientacion == 'horizontal':
-            fila = random.randint(0, tablero_size[0] - 1)
-            columna = random.randint(0, tablero_size[1] - self.tamanio)
-            self.posiciones = [(fila, columna + i) for i in range(self.TAM)] # para usar este metodo asi, HABRIA QUE TENER UNA CLASE BARCO, PUES EL SELF TAMAÑO DERIVARIA DE ELLA
-        else:  # orientacion == 'vertical'
-            fila = random.randint(0, tablero_size[0] - self.tamanio)
-            columna = random.randint(0, tablero_size[1] - 1)
-            self.posiciones = [(fila + i, columna) for i in range(self.tamanio)]
-
-    # METODO PARA ELEGIR LA COLOCACION DE LOS BARCOS Y LA ORIENTACION
-    def colocar_manualmente(self, tipo_barco, orientacion, posicion_inicial):
-        '''
-        Coloca el barco manualmente en el tablero.
-        Input:
-            - El tipo de barco (1, 2, 3, 4 que obtendremos del diccionario self.tipos_barco )
-            - orientacion: La orientación del barco ('norte', 'sur', 'este' u 'oeste').
-            - posicion_inicial: La posición inicial del barco (fila, columna), en forma de tupla
-        
-        Relacion: VALIDAR_COORDENADA(), para confirmar que no hay ningun otro barco ahí'''
-        if orientacion == 'norte':
-            self.posiciones = [(posicion_inicial[0] - i, posicion_inicial[1]) for i in range(self.tamano)] # para usar este metodo asi, HABRIA QUE TENER UNA CLASE BARCO, PUES EL SELF TAMAÑO DERIVARIA DE ELLA
-        elif orientacion == 'sur':
-            self.posiciones = [(posicion_inicial[0] + i, posicion_inicial[1]) for i in range(self.tamano)]
-        elif orientacion == 'este':
-            self.posiciones = [(posicion_inicial[0], posicion_inicial[1] + i) for i in range(self.tamano)]
-        elif orientacion == 'oeste':
-            self.posiciones = [(posicion_inicial[0], posicion_inicial[1] - i) for i in range(self.tamano)]
-        print(f"Colocando barco de tamaño {self.tamano}.")
-        
-
-    def validar_coordenada(self, nueva_posicion):
-        '''
-        Valida si es posible colocar el barco en la nueva posición.
-        Input:
-            - nueva_posicion: La nueva posición a validar (fila, columna). 
-        Output:
-            - True si es posible colocar el barco, False de lo contrario
-        Relacion: COLOCAR_BARCOS()[MANUAL O ALEATORIAMENTE]'''
-        for barco in otros_barcos:
-            for pos in self.posiciones: 
-                #ic("revisamos en self.posiciones, donde se guardan nuestros barcos anteriores cada vez que se colocan")
-                if pos == nueva_posicion:
-                    return False  # La posición está ocupada por otro barco
-        return True  # La posición está disponible para colocar el barco
-
-    def validar_coordenada_para_barco(self, nueva_posicion):
-         '''
-         Valida si es posible colocar el barco en la nueva posición.
-        Input:
-            nueva_posicion = fila y columna donde se pretende colocar nuestro barco,
-        Output:
-            - True si es posible colocar el barco, False de lo contrario
-        Relacion con otros metodos: Esta relacionado con los metodos DEF COLOCAR_BARCOS()[MANUAL O ALEATORIAMENTE]
-        '''
-        #return (0 <= fila < self.TAM and 0 <= columna < self.TAM and self.tablero_barcos[fila, columna] == "~")
         
 
 
