@@ -10,12 +10,13 @@ BONUS
 
 H4: Juego operativo en el que el J1 elija la posición y orientación de sus barcos. Para el J2 (la maquina) los barcos se seguirán colocando de manera aleatoria y con respecto a los disparos, seguirán siendo aleatorios para la máquina y eligiendo coordenadas para J1. 
 
-H5: Para incluir complejidad, creamos la clase Barco además de Tablero, que nos ayudará a la hora de introducir métodos más complejos.
+H5: Para incluir complejidad, creamos la clase Juego además de Tablero, que nos ayudará a la hora de introducir métodos más complejos.
 
-H6: Incluimos un disparo INTELIGENTE para el J2 (máquina) para añadir un nivel de dificultad especial a la partida.
+H6: Creamos menú para la colocación de los barcos del jugador 1, para poder elegir entre CARGA ALEATORIA, POSICIONES FIJAS O ELEGIDAS POR JUGADOR
 
-H7: Creamos un índice de opciones a realizar antes del disparo (SALIR DEL JUEGO, IMPRIMIR TABLERO BARCOS, VOLVER A EMPEZAR, BARCOS QUE QUEDAN POR HUNDIR…)
+H7: Incluimos un disparo INTELIGENTE para el J2 (máquina) para añadir un nivel de dificultad especial a la partida.
 
-H8: Embellecemos el juego, usando librerías especializadas para crear una interfaz gráfica y sonidos
+H8: Creamos un índice de opciones a realizar antes del disparo (SALIR DEL JUEGO, IMPRIMIR TABLERO BARCOS, VOLVER A EMPEZAR, BARCOS QUE QUEDAN POR HUNDIR…)
 
-H9: ¡OPCIONAL Y SOLO SI NOS DA TIEMPO!!! Creamos estadísticas de juego, o bien a nivel de partida (el número de partidas jugadas, victorias, derrotas, promedio de disparos antes de golpear un barco…) o a lo largo de varias partidas, pudiendo crear si queremos graficas con librería MATPLOTLIB para visualizar los resultados
+H9: Embellecemos el juego, usando librerías especializadas para crear una interfaz gráfica y sonidos
+
