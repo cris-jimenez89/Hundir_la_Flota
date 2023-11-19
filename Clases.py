@@ -103,10 +103,10 @@ class Tablero:
                     posx2 = posx
                     posy2 = posy - 1
                     if((posx,posy) not in self.listaposiciones and (posx2,posy2) not in self.listaposiciones):
-                    self.posiciones.append([(posx,posy),(posx2,posy2)])
-                    self.listaposiciones.append((posx,posy))
-                    self.listaposiciones.append((posx2,posy2))
-                    return [self.posiciones,self.listaposiciones]
+                        self.posiciones.append([(posx,posy),(posx2,posy2)])
+                        self.listaposiciones.append((posx,posy))
+                        self.listaposiciones.append((posx2,posy2))
+                        return [self.posiciones,self.listaposiciones]
         elif (tamanio == 3):
             while True:
                 posx = random.randint(2,7)
@@ -183,14 +183,12 @@ class Tablero:
                     return[self.posiciones,self.listaposiciones]
             
     def generar_flota_random(self):
-    '''
-        Genera la flota de forma aleatoria
+        ''' Genera la flota de forma aleatoria
         Input: No tiene
         Output: No tiene salidas, solo introduce en self.posiciones y self.listas posiciones los barcos que se necesitan
         Relacion con otros metodos: Utiliza el diccionario self.tipos_barcos que contiene información sobre el tamaño y la cantidad de cada tipo de barco.
         Llama al método generar_barco_aleatorio para cada tipo de barco y dirección aleatoria, lo que afecta las listas de posiciones (self.posiciones y self.listaposiciones).
-        Imprime las posiciones de los barcos y las listas de posiciones después de generar cada barco.
-    '''
+        Imprime las posiciones de los barcos y las listas de posiciones después de generar cada barco.'''
         for i in self.tipos_barcos.keys():
             for j in range(self.tipos_barcos[i]):
                 direccion = random.choices(['n','s','e','o'])
@@ -603,16 +601,12 @@ class Juego:
         self.jugador2.generar_flota_random()
              
 
-   
-        '''
-
     def elegir_opcion_en_turno(self):
         '''
         Ofrece un menu de opcion al jugador para que elija
             1- Ejecutar disparo
             2- Salir de la partida
-            3- Mostrar mis barcos
-        '''
+            3- Mostrar mis barcos'''
         while True:
             try:
                 print("MENU")
@@ -634,8 +628,8 @@ class Juego:
         1 si le vuelve a tocar a el por haber realizado un disparo exitoso previo
         2 si falla el tiro
         3 si acierta y gana la partida
-        output: int (1,2 ó 3)
-        '''
+        output: int (1,2 ó 3)'''
+        
         #ic("Empieza J1, DISPARO A JUGADOR 2")
         print("J1 dispara")
         disparoJ1 = self.jugador1.disparar_ELEGIDO() # Usamos funcion def disparar_ELEGIDO() contra J2(ACTUALIZACION)
