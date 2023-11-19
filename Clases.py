@@ -8,7 +8,7 @@ import constantes as c
 class Tablero:
     
     def __init__(self) -> None:
-        self.TAM = c.TAM
+        self.TAM = c.TAM epic
         self.numero_impactos = 0 
         self.tablero_barcos  = np.array([["~" for i in range(c.TAM)] for j in range(c.TAM)])
         self.tablero_jugadas = np.array([["~" for i in range(c.TAM)] for j in range(c.TAM)])
@@ -102,11 +102,11 @@ class Tablero:
                 else:
                     posx2 = posx
                     posy2 = posy - 1
-                    if((posx,posy) not in self.listaposiciones and (posx2,posy2) not in self.listaposiciones):
-                        self.posiciones.append([(posx,posy),(posx2,posy2)])
-                        self.listaposiciones.append((posx,posy))
-                        self.listaposiciones.append((posx2,posy2))
-                        return [self.posiciones,self.listaposiciones]
+                if((posx,posy) not in self.listaposiciones and (posx2,posy2) not in self.listaposiciones):
+                    self.posiciones.append([(posx,posy),(posx2,posy2)])
+                    self.listaposiciones.append((posx,posy))
+                    self.listaposiciones.append((posx2,posy2))
+                    return [self.posiciones,self.listaposiciones]
         elif (tamanio == 3):
             while True:
                 posx = random.randint(2,7)
@@ -131,7 +131,7 @@ class Tablero:
                     posy2 = posy - 1
                     posx3 = posx
                     posy3 = posy - 2
-                if((posx,posy) not in self.self.listaposiciones
+                if((posx,posy) not in self.listaposiciones
                     and (posx2,posy2) not in self.listaposiciones
                     and (posx3,posy3) not in self.listaposiciones):
                     self.posiciones.append([(posx,posy),(posx2,posy2),(posx3,posy3)])
@@ -257,8 +257,8 @@ class Tablero:
         print("Disparamos")
         while True:
             try:
-                fila = int(input("Por favor, ingrese la fila donde desea efectuar el disparo, entre 0 y 9"))
-                columna = int(input("Ahora, ingrese la columna entre 0 y 9, por favor"))
+                fila = int(input("Por favor, ingrese la fila donde desea efectuar el disparo, entre 0 y 9:"))
+                columna = int(input("Ahora, ingrese la columna entre 0 y 9, por favor:"))
                 #ic("Importante que las coordenadas esten entre 0 y 9, tanto las filas como las columnas")           
                 if 0 <= fila <= 9 and 0 <= columna <= 9:
                     posicion_disparo = (fila,columna)
