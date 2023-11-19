@@ -6,5 +6,5 @@ random==3.9.2
 winsound==3.9.2
 sys==3.9.2
 
-'''Tanto random,git winsound como sys no tienen versiones propias,
+'''Tanto random,winsound como sys no tienen versiones propias,
 sus versiones son las del python que se esté usando en el momento'''
