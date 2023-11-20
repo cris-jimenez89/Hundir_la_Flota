@@ -155,7 +155,7 @@ def generar_barco_elegido(self,tamanio,direccion):
             posy2 = posy - 1
             posx3 = posx
             posy3 = posy - 2
-        if((posx,posy) not in self.self.listaposiciones
+        if((posx,posy) not in self.listaposiciones
             and (posx2,posy2) not in self.listaposiciones
             and (posx3,posy3) not in self.listaposiciones):
             self.posiciones.append([(posx,posy),(posx2,posy2),(posx3,posy3)])
