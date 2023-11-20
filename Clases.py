@@ -8,7 +8,7 @@ import constantes as c
 class Tablero:
     
     def __init__(self) -> None:
-        self.TAM = c.TAM epic
+        self.TAM = c.TAM 
         self.numero_impactos = 0 
         self.tablero_barcos  = np.array([["~" for i in range(c.TAM)] for j in range(c.TAM)])
         self.tablero_jugadas = np.array([["~" for i in range(c.TAM)] for j in range(c.TAM)])
