@@ -70,6 +70,152 @@ class Tablero:
         for i in self.posiciones:
             self.pintar_barco(i)
 
+    def generar_barco_elegido(tamanio,direccion,posiciones,listaposiciones):
+    '''
+    Genera el barco elegido por el jugador.
+    Entradas: 
+    tamanio: Tamaño del barco.
+    direccion: Dirección que escoja el jugador.
+    Salidas:No tiene salidas explícitas, ya que simplemente actualiza las listas de posiciones (self.posiciones y self.listaposiciones).
+    Relaciones con otros metodos:Utiliza el tamaño del barco y la dirección para generar las posiciones elegidas por el jugador que se almacenan en self.posiciones.
+    Actualiza self.listaposiciones con las nuevas posiciones generadas.
+    
+    '''
+    
+    if (tamanio == 1):
+        while True:
+            posx = int(input("Introduce posición x (0-9): "))
+            posy = int(input("Introduce posición y (0-9): "))
+            if 0<= posx <=9 and 0<= posy <=9:
+                break
+        if((posx,posy) not in listaposiciones):
+            posiciones.append([(posx,posy)])
+            listaposiciones.append((posx,posy))
+            return [posiciones,listaposiciones]
+    elif(tamanio == 2):
+        while True:
+            posx = int(input("Introduce posición x (1-8): "))
+            posy = int(input("Introduce posición y (1-8): "))
+            if 1<= posx <=8 and 1<= posy <=8:
+                break
+        if(direccion == 'n'):
+                posx2 = posx - 1
+                posy2 = posy
+        elif(direccion == 's'):
+                posx2 = posx + 1
+                posy2 = posy
+        elif(direccion == 'e'):
+                posx2 = posx
+                posy2 = posy + 1
+        else:
+                posx2 = posx
+                posy2 = posy - 1
+        if((posx,posy) not in listaposiciones and (posx2,posy2) not in listaposiciones):
+            posiciones.append([(posx,posy),(posx2,posy2)])
+            listaposiciones.append((posx,posy))
+            listaposiciones.append((posx2,posy2))
+            return [posiciones,listaposiciones]
+    elif (tamanio == 3):
+        while True:
+            posx = int(input("Introduce posición x (2-7): "))
+            posy = int(input("Introduce posición y (2-7): "))
+            if 2<= posx <=7 and 2<= posy <=7:
+                break
+        if(direccion == 'n'):
+                posx2 = posx - 1
+                posy2 = posy
+                posx3 = posx - 2
+                posy3 = posy
+        elif(direccion == 's'):
+                posx2 = posx + 1
+                posy2 = posy
+                posx3 = posx + 2
+                posy3 = posy
+        elif(direccion == 'e'):
+                posx2 = posx
+                posy2 = posy + 1
+                posx3 = posx
+                posy3 = posy + 2
+        else:
+                posx2 = posx
+                posy2 = posy - 1
+                posx3 = posx
+                posy3 = posy - 2
+        if((posx,posy) not in listaposiciones
+                and (posx2,posy2) not in listaposiciones
+                and (posx3,posy3) not in listaposiciones):
+                posiciones.append([(posx,posy),(posx2,posy2),(posx3,posy3)])
+                listaposiciones.append((posx,posy))
+                listaposiciones.append((posx2,posy2))
+                listaposiciones.append((posx3,posy3))
+                return [posiciones,listaposiciones]
+    else:
+        while True:
+            posx = int(input("Introduce posición x (3-6): "))
+            posy = int(input("Introduce posición y (3-6): "))
+            if 3<= posx <=6 and 3<= posy <=6:
+                break
+        if(direccion == 'n'):
+                posx2 = posx - 1
+                posy2 = posy
+                posx3 = posx - 2
+                posy3 = posy
+                posx4 = posx - 3
+                posy4 = posy
+        elif(direccion == 's'):
+                posx2 = posx + 1
+                posy2 = posy
+                posx3 = posx + 2
+                posy3 = posy
+                posx4 = posx + 3
+                posy4 = posy
+        elif(direccion == 'e'):
+                posx2 = posx
+                posy2 = posy + 1
+                posx3 = posx
+                posy3 = posy + 2
+                posx4 = posx
+                posy4 = posy + 3
+        else:
+                posx2 = posx
+                posy2 = posy - 1
+                posx3 = posx
+                posy3 = posy - 2
+                posx4 = posx
+                posy4 = posy - 3
+        if((posx,posy) not in listaposiciones
+                and (posx2,posy2) not in listaposiciones
+                and (posx3,posy3) not in listaposiciones
+                and (posx4,posy4) not in listaposiciones):
+                posiciones.append([(posx,posy),(posx2,posy2),(posx3,posy3),(posx4,posy4)])
+                listaposiciones.append((posx,posy))
+                listaposiciones.append((posx2,posy2))
+                listaposiciones.append((posx3,posy3))
+                listaposiciones.append((posx4,posy4))
+                return[posiciones,listaposiciones]
+
+    def generar_flota_elegida():
+    '''
+    Genera la flota que el usuario quiera
+    '''
+    posiciones = []
+    listaposiciones = []
+    tipos_barcos = {1:4,2:3,3:2,4:1}
+    for i in tipos_barcos.keys():
+        for j in range(tipos_barcos[i]):
+            while True:
+                direccion = input("Seleccione una dirección para el barco n/s/e/o")
+                print(direccion)
+                if direccion=="n":
+                    break
+                print("tengo la vble")
+            tamanio = i
+            res = generar_barco_elegido(tamanio,direccion,posiciones,listaposiciones)
+            posiciones = res[0]
+            listaposiciones = res[1]
+            print(posiciones)
+            print(listaposiciones)
+
     def generar_barco_aleatorio(self,tamanio,direccion):
         '''Genera los barcos
         Entradas: tamanio: Tamaño del barco.
@@ -593,8 +739,10 @@ class Juego:
         elif opcion_colocacion == 2:
             self.colocar_barcos()# Posiciones fijas            
         elif opcion_colocacion == 3:
-            self.jugador1.colocar_barcos_fijos() #NOMBRE DE METODO ROCIO# eligiendo nosotros la posicion, PENDIENTE DE INCLUIR
-            self.jugador2.colocar_barcos_fijos() #NOMBRE DE METODO ROCIO# eligiendo nosotros la posicion, PENDIENTE DE INCLUIR
+            self.jugador1.generar_flota_elegida()
+            self.jugador1.colocar_barco_aleatorio_o_elegido() 
+            self.jugador2.generar_flota_random()# Posiciones aleatorias
+            self.jugador2.colocar_barco_aleatorio_o_elegido()
             
         else:
             print("Opción no válida.")
