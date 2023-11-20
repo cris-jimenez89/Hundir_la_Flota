@@ -737,9 +737,10 @@ class Juego:
             self.jugador2.generar_flota_random()# Posiciones aleatorias
             self.jugador2.colocar_barco_aleatorio_o_elegido()
         elif opcion_colocacion == 2:
-            self.colocar_barcos()# Posiciones fijas            
+            self.jugador1.colocar_barcos()# Posiciones fijas
+            self.jugador2.colocar_barcos() # Posiciones fijas            
         elif opcion_colocacion == 3:
-            self.jugador1.generar_flota_elegida()
+            self.jugador1.generar_flota_elegida() # Posicion elegida
             self.jugador1.colocar_barco_aleatorio_o_elegido() 
             self.jugador2.generar_flota_random()# Posiciones aleatorias
             self.jugador2.colocar_barco_aleatorio_o_elegido()
@@ -748,8 +749,6 @@ class Juego:
             print("Opción no válida.")
             return
 
-        #ic("Ahora, colocamos la flota de jugador 2, que se solicita que sea siempre aleatoria")
-        self.jugador2.generar_flota_random()
              
 
     def elegir_opcion_en_turno(self):
