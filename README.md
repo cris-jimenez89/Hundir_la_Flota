@@ -10,7 +10,7 @@ Bienvenidos a nuestra reinterpretación personal del juego HUNDIR LA FLOTA. La f
 - **H5**: Para incluir complejidad, creamos la clase Juego además de Tablero, que nos ayudará a la hora de introducir métodos más complejos.
 - **H6**: Creamos menú para la colocación de los barcos del jugador 1, para poder elegir entre CARGA ALEATORIA, POSICIONES FIJAS O ELEGIDAS POR JUGADOR.
 - **H7**: Incluimos un disparo INTELIGENTE para el J2 para añadir un nivel de dificultad especial a la partida.
-- **H8**: Creamos un índice de opciones a realizar antes del disparo (SALIR DEL JUEGO, IMPRIMIR TABLERO BARCOS, VOLVER A EMPEZAR, BARCOS QUE QUEDAN POR HUNDIR…).
+- **H8**: Creamos un índice de opciones a realizar antes del disparo (SALIR DEL JUEGO, IMPRIMIR TABLERO BARCOS, DISPARAR).
 - **H9**: Embellecemos el juego, usando librerías especializadas para crear una interfaz gráfica y sonidos.
 
 
