@@ -5,7 +5,7 @@ class Tablero:
         self.listaposiciones = []  # Lista de tuplas, todas las B que hay en el tablero
         self.tipos_barcos = {1: 4, 2: 3, 3: 2, 4: 1}
 
-def colocar_barco_elegido(self):
+def colocar_barco_aleatorio_o_elegido(self):
     '''Método para colocar los barcos en el tablero barcos tras elegir posicion
     Input: No tiene
     Output:No tiene, sirve para pintar los barcos tras  generar sus posiciones
