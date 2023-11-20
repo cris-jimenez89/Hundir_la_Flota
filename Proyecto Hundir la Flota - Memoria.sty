@@ -9,13 +9,16 @@ Nos hicimos un esquema desde un primer momento con unos objetivos a cumplir en f
     H3: Juego operativo que incluya que los barcos sean colocados en posiciones aleatorias para ambos jugadores, disparo aleatorio para el J2 (máquina) y eligiendo coordenadas para el J1
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     BONUS (NO SE SOLICITABA EN EL ENUNCIADO DEL EJERCICIO)
-    H4: Juego operativo en el que el J1 elija la posición y orientación de sus barcos. Para el J2 (la maquina) los barcos se seguirán colocando de manera aleatoria y con respecto a los disparos, seguirán siendo aleatorios para la máquina y eligiendo coordenadas para J1. 
+    H4: Juego operativo en el que el J1 elija la posición y orientación de sus barcos. Para el J2 (la maquina) los barcos se seguirán colocando de manera aleatoria y con respecto a los 
+        disparos, seguirán siendo aleatorios para la máquina y eligiendo coordenadas para J1. 
     H5: Para incluir complejidad creamos la clase Juego además de Tablero que nos ayudará a la hora de introducir métodos más complejos.
     H6: Creamos menú para la colocación de los barcos del jugador 1, para poder elegir entre CARGA ALEATORIA, POSICIONES FIJAS O ELEGIDAS POR JUGADOR
     H7: Incluimos un disparo INTELIGENTE para el J2 (máquina) para añadir un nivel de dificultad especial a la partida.
-    H8: Creamos un índice de opciones a realizar antes del disparo (SALIR DEL JUEGO, IMPRIMIR TABLERO BARCOS, VOLVER A EMPEZAR …)
+    H8: Creamos un índice de opciones a realizar antes del disparo (SALIR DEL JUEGO, IMPRIMIR TABLERO BARCOS, DISPARAR)
     H9: Embellecemos el juego, usando librerías especializadas para crear una interfaz gráfica y sonidos
-    H10: ¡OPCIONAL Y QUE FINALMENTE NO PUDIMOS CUBRIR! Creamos estadísticas de juego, o bien a nivel de partida (el número de partidas jugadas, victorias, derrotas, promedio de disparos antes de golpear un barco…) o a lo largo de varias partidas, pudiendo crear si queremos graficas con librería MATPLOTLIB para visualizar los resultados. Es algo que nos queda pendiente porque el tiempo estipulado no nos lo ha permitido, pero sería interesante poder revisarlo en un futuro e incluirlo en el proyecto.
+    H10: ¡OPCIONAL Y QUE FINALMENTE NO PUDIMOS CUBRIR! Creamos estadísticas de juego, o bien a nivel de partida (el número de partidas jugadas, victorias, derrotas, promedio de disparos 
+         antes de golpear un barco…) o a lo largo de varias partidas, pudiendo crear si queremos graficas con librería MATPLOTLIB para visualizar los resultados. Es algo que nos queda 
+         pendiente porque el tiempo estipulado no nos lo ha permitido, pero sería interesante poder revisarlo en un futuro e incluirlo en el proyecto.
 
 Teniendo en cuenta que el integrante del equipo Ricardo González tenía un nivel inicial más elevado, pues ya había creado un juego operativo de hundir la flota con anterioridad, dejó a las integrantes Rocío y Cristina hacer las primeras fases del proyecto, el bucle MAIN inicial y los primeros métodos de barco y disparo para hacer un juego funcional pero básico, con posiciones fijas para ambos jugadores y disparos aleatorios para los dos, que se irán completando e incluyendo niveles de dificultad. Luego se encargaría él de incluir más niveles de complejidad al proyecto.
 Para empezar a desarrollar, se basaron en el primer esqueleto de una clase Tablero creada por Ricardo, con un primer esbozo de los atributos fijos asociados a su constructor para cubrir del HITO 1 al HITO 3.
@@ -109,12 +112,16 @@ Contribuciones Destacadas
     •	Implementación del esquema de la clase Tablero y desarrollo de la clase Juego casi al completo, con la mayor parte de sus métodos.
     •	Coordinación con el resto del equipo para asegurar una flota equilibrada.
     2.	Arreglos del Código:
-    •	Identificación y mejora de áreas clave del código para una mejor legibilidad y mantenibilidad. Al crear la clase Juego, encapsula de manera más eficiente los códigos y crea métodos más complejos que permitan incluir escenarios extra, como el menú de opciones antes del disparo.
+    •	Identificación y mejora de áreas clave del código para una mejor legibilidad y mantenibilidad. Al crear la clase Juego, encapsula de manera más eficiente los códigos y crea 
+        métodos más complejos que permitan incluir escenarios extra, como el menú de opciones antes del disparo.
     •	Corrección de los errores derivados de la lógica básica o la gramática especializada.
     •	Buenas prácticas de codificación, creación de fichero constantes para importar más tarde en el juego.
     3.	Interfaz gráfica:
     •	Implementación de pygame y winsound, que incluyó la programación de interactividades, animaciones y la integración con la lógica del juego.
+
+
 Conclusión
+
 Para finalizar esta memoria, nos gustaría hacer un resumen de los logros conseguidos, pues hemos logrado nueve de los diez hitos que nos propusimos en un principio. 
 También es importante señalar que, según el enunciado solicitado para el trabajo de clase, sólo era obligatorio cubrir 3 de nuestros hitos, de modo que los otro 6 conseguidos son extras, lo que nos hace estar bastante satisfechos con el resultado de nuestro trabajo en equipo.
 Consideramos que hemos usado las mejores características de cada uno de los componentes del grupo para poder crear un proyecto más completo. El colaborador Ricardo se ha encargado de marcar la dinámica a seguir por el grupo para que Rocío y Cristina pudieran entender desde el principio la lógica del juego, desde el nivel más sencillo para luego pasar a niveles más complejos. 
