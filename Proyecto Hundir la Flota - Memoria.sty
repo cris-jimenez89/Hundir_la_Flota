@@ -1,0 +1,125 @@
+Proyecto Hundir la Flota - Memoria del Equipo
+Introducción
+
+En esta memoria, documentamos el trabajo realizado por cada uno de los tres integrantes en el proyecto Hundir la Flota. Se detallan las contribuciones individuales y los aspectos destacados de la implementación.
+Nos hicimos un esquema desde un primer momento con unos objetivos a cumplir en forma de hitos, que fueron los siguientes:
+
+    H1: Conseguir un juego operativo, en el que los barcos estén colocados en posiciones fijas para ambos jugadores y sus disparos sean a un punto aleatorio.
+    H2: Juego operativo con los barcos colocados en posiciones fijas, disparo aleatorio para el J2 (máquina) y eligiendo coordenadas para el J1
+    H3: Juego operativo que incluya que los barcos sean colocados en posiciones aleatorias para ambos jugadores, disparo aleatorio para el J2 (máquina) y eligiendo coordenadas para el J1
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    BONUS (NO SE SOLICITABA EN EL ENUNCIADO DEL EJERCICIO)
+    H4: Juego operativo en el que el J1 elija la posición y orientación de sus barcos. Para el J2 (la maquina) los barcos se seguirán colocando de manera aleatoria y con respecto a los disparos, seguirán siendo aleatorios para la máquina y eligiendo coordenadas para J1. 
+    H5: Para incluir complejidad creamos la clase Juego además de Tablero que nos ayudará a la hora de introducir métodos más complejos.
+    H6: Creamos menú para la colocación de los barcos del jugador 1, para poder elegir entre CARGA ALEATORIA, POSICIONES FIJAS O ELEGIDAS POR JUGADOR
+    H7: Incluimos un disparo INTELIGENTE para el J2 (máquina) para añadir un nivel de dificultad especial a la partida.
+    H8: Creamos un índice de opciones a realizar antes del disparo (SALIR DEL JUEGO, IMPRIMIR TABLERO BARCOS, VOLVER A EMPEZAR …)
+    H9: Embellecemos el juego, usando librerías especializadas para crear una interfaz gráfica y sonidos
+    H10: ¡OPCIONAL Y QUE FINALMENTE NO PUDIMOS CUBRIR! Creamos estadísticas de juego, o bien a nivel de partida (el número de partidas jugadas, victorias, derrotas, promedio de disparos antes de golpear un barco…) o a lo largo de varias partidas, pudiendo crear si queremos graficas con librería MATPLOTLIB para visualizar los resultados. Es algo que nos queda pendiente porque el tiempo estipulado no nos lo ha permitido, pero sería interesante poder revisarlo en un futuro e incluirlo en el proyecto.
+
+Teniendo en cuenta que el integrante del equipo Ricardo González tenía un nivel inicial más elevado, pues ya había creado un juego operativo de hundir la flota con anterioridad, dejó a las integrantes Rocío y Cristina hacer las primeras fases del proyecto, el bucle MAIN inicial y los primeros métodos de barco y disparo para hacer un juego funcional pero básico, con posiciones fijas para ambos jugadores y disparos aleatorios para los dos, que se irán completando e incluyendo niveles de dificultad. Luego se encargaría él de incluir más niveles de complejidad al proyecto.
+Para empezar a desarrollar, se basaron en el primer esqueleto de una clase Tablero creada por Ricardo, con un primer esbozo de los atributos fijos asociados a su constructor para cubrir del HITO 1 al HITO 3.
+Dentro de los bonus, de los HITOS del 4 al 6 nos hemos encargado entre los 3 dependiendo de los métodos con los que estuviese asociado lo que se necesitaba, si eran sobre barcos o disparos, aunque la mayor parte ha sido desarrollada por Rocío y Cristina y en algunos casos revisadas por Ricardo, si algún método no funcionaba correctamente. 
+Los HITOS 7,8 Y 9 fueron hechos en su totalidad por Ricardo.
+La revisión final, con las pruebas necesarias de métodos, la memoria a realizar con el reparto de tareas, los requirements.txt y demás añadidos los hemos hecho juntos.
+
+
+Integrante 1: Rocío Cala R
+Resumen
+A Rocío se le asignaron en un primer momento los métodos relacionados con los barcos en la clase Tablero en los primeros hitos:
+    1.	def pintar_tablero_barcos(self)
+    2.	def colocar_barcos(self) (PARA POSICIONES FIJAS)
+    3.	def pintar_barco(self,posiciones) 
+    4.	def estado_jugador(self):
+
+Luego se encargó de modelizar una clase Barco, aunque finalmente no fue implementada pues se encontraron métodos más útiles para incluir lo que necesitábamos añadir.
+Más tarde, asumió la tarea de crear dos nuevos métodos para el HITO 4, para que el J1 pueda elegir la orientación y posición de sus barcos
+Las revisiones generales, las pruebas del juego, así como el esquema de los hitos los generó de manera compartida con el resto de los colaboradores.
+
+Contribuciones Destacadas
+    1.	Generación de métodos de Barcos:
+    •	Métodos para cubrir los primeros hitos del proyecto con respecto a los barcos.
+    •	Implementación del método para generar barcos en posiciones elegidas para jugador 1 para HITO 4
+    •	Manejo de tamaños y direcciones de barcos de acuerdo con las reglas del juego.
+    2.	Diseño de Clases:
+    •	Creación de la clase Barco()
+    •	Primer esbozo de métodos de colocación de barcos aleatorios necesarios para el HITO 3, incluido un método de validar_coordenada.
+    3.	Funcionalidad de colocación de barcos de forma elegida:
+    •	Desarrollo de la lógica para determinar si un barco puede colocarse en un determinado lugar.
+
+
+Integrante 2: Cristina Jiménez Parrado
+Resumen
+La primera tarea de la que se encargó Cristina fue de la creación del repositorio de Github donde se almacenaría el proyecto, haciendo colaboradores a sus compañeros. Se creó la rama develop, de la que luego derivarían todas las ramas en las que se trabajaría en remoto.
+Su siguiente tarea fueron los métodos relacionados con los disparos necesarios en la clase Tablero en los primeros hitos, así como el bucle main inicial(HITOS DEL 1 AL 3), sujeto a modificaciones tras la creación de clase Juego():
+    1.	def pintar_tablero_jugadas(self)    
+    2.	def disparar(self): (aleatorio en un primer momento)
+    3.	def pintar_resultado_disparo(self,resultado)
+    4.	def recibir_impacto(self,pos)
+
+También hubo que completar el método def disparar_ELEGIDO(self) necesario para cubrir el HITO 2, para que el jugador 1 pueda elegir las coordenadas de su disparo.
+Más tarde, asumió la tarea de crear dos nuevos métodos para el HITO 3, para colocar los barcos de forma aleatoria
+    1.	def generar_barco_aleatorio(self,tamanio,direccion)            
+    2.	def generar_flota_random(self)
+
+Tras la modelización de estos métodos, fue necesario un cambio en el método def colocar_barcos() ya creado que recogiera las condiciones para la colocación de los barcos en aleatorio o elegidos:
+    1.	def colocar_barco_aleatorio_o_elegido(self)
+Para cumplir un hito más, el número H6, y poder crear un menú para el jugador 1 que permita elegir el método de colocación de los barcos, aleatorio, fijo o elegido, se crea la función def elegir_metodo_colocacion(self) y se implementa dentro del bucle del juego.
+Las revisiones generales, las pruebas del juego, la actualización de los métodos de Juego cuando sea necesario, así como el esquema de los hitos los generó de manera compartida con el resto de los colaboradores.
+
+Contribuciones Destacadas
+    1.	Manejo de Disparos:
+    •	Desarrollo de la lógica para realizar disparos durante el juego.
+    •	Creación de métodos que conectan el tablero enemigo con el disparo rival y actualización del tablero jugadas.
+    •	Implementación de la interacción entre el usuario y el tablero, primero con disparos aleatorios y finalmente con disparos elegidos.
+    2.	Generación de Barcos Aleatorios:
+    •	Implementación del método para generar barcos aleatorios, así como menú de opciones para su elección en el juego.
+    •	Manejo de tamaños y direcciones de barcos de acuerdo con las reglas del juego.
+    •	Actualización de método para colocar barco teniendo en cuenta la nueva lógica aleatoria o elegida y no las fijas.
+    3.	Documentación del Código:
+    •	Creación de comentarios detallados y documentación para facilitar la comprensión del código.
+
+Integrante 3: Ricardo González Otal
+Resumen
+Ricardo se encargó en un primer momento de la creación del esquema inicial a seguir para marcar el rumbo que tomaría el proyecto. Dado que contaba con experiencia en la creación de un juego similar, se encargo de dar las pautas para comenzarlo. Modelizó la clase Tablero con el nombre de algunos de los métodos iniciales. 
+Una vez creados los HITOS del 1 al 4 incluyó la clase Juego con sus métodos correspondientes, necesaria para los últimos HITOS:
+    1.	def iniciar_juego(self): genera la flota para ambos jugadores para poder empezar con el bucle del juego.
+    2.	def jugar(self): donde se incluye el main del juego, ya generado en los primeros hitos pero modificado a las nuevas condiciones tras la creación de la clase Juego.
+    3.	def dibujar_tablero(self,tablero, posicionesHundidas,x, y, mensaje): donde incluye la interfaz gráfica, con pygame y winsound.
+    4.	def jugar_otra_vez(self): Por si quieres jugar otra vez.
+
+Creó el fichero de constantes.py y otro con un main.py, con un bucle de juego reducido en el que están implantados ya los métodos creados en la clase Juego para dejarlo lo más escueto y limpio posible.
+Modelizó un disparo inteligente para la cpu, para incluir un nivel extra de dificultad al juego (H7), con los siguientes métodos:
+    1.	def posiciones_de_(self,c)
+    2.	def posiciones_cerca_impacto(self,pos)
+    3.	def disparar_random(self)
+    4.	def calcular_direccion(self,impacto1,impacto2)
+    5.	def disparar_cerca_impacto(self)
+    6.	def disparar_cerca_dir_h(self,posiciones_cercanas,impacto1)
+    7.	def disparar_cerca_dir_v(self,posiciones_cercanas,impacto1)
+    8.	def disparar_cpu_inteligente(self)
+
+Para inicializarlo en el bucle principal, crea def elegir_nivel(self) e introduce en el nivel 1 el disparo inteligente (quedando el nivel sencillo como el 0)  
+Para cumplir con el H8, añade el método:
+    1.	def elegir_opcion_en_turno(self): Menú que nos permite ejecutar un disparo, salir de la partida o mostrar mis barcos
+
+Las revisiones generales, las pruebas del juego y la actualización de los métodos de Juego cuando sea necesario los generó con el resto de los integrantes.
+Contribuciones Destacadas
+    1.	Creación de clases:
+    •	Implementación del esquema de la clase Tablero y desarrollo de la clase Juego casi al completo, con la mayor parte de sus métodos.
+    •	Coordinación con el resto del equipo para asegurar una flota equilibrada.
+    2.	Arreglos del Código:
+    •	Identificación y mejora de áreas clave del código para una mejor legibilidad y mantenibilidad. Al crear la clase Juego, encapsula de manera más eficiente los códigos y crea métodos más complejos que permitan incluir escenarios extra, como el menú de opciones antes del disparo.
+    •	Corrección de los errores derivados de la lógica básica o la gramática especializada.
+    •	Buenas prácticas de codificación, creación de fichero constantes para importar más tarde en el juego.
+    3.	Interfaz gráfica:
+    •	Implementación de pygame y winsound, que incluyó la programación de interactividades, animaciones y la integración con la lógica del juego.
+Conclusión
+Para finalizar esta memoria, nos gustaría hacer un resumen de los logros conseguidos, pues hemos logrado nueve de los diez hitos que nos propusimos en un principio. 
+También es importante señalar que, según el enunciado solicitado para el trabajo de clase, sólo era obligatorio cubrir 3 de nuestros hitos, de modo que los otro 6 conseguidos son extras, lo que nos hace estar bastante satisfechos con el resultado de nuestro trabajo en equipo.
+Consideramos que hemos usado las mejores características de cada uno de los componentes del grupo para poder crear un proyecto más completo. El colaborador Ricardo se ha encargado de marcar la dinámica a seguir por el grupo para que Rocío y Cristina pudieran entender desde el principio la lógica del juego, desde el nivel más sencillo para luego pasar a niveles más complejos. 
+Así, nadie del equipo se queda rezagado, pero sí pueden incluirse hitos que, para integrantes como Rocío y Cristina, con menos experiencia en lógicas tan complejas, podrían haber sido demasiado difíciles de conseguir solas en las dos semanas que se tenía para desarrollar el proyecto y, de ese modo, el colaborador Ricardo podía dedicarse a tareas no obligatorias que completasen y le diesen complejidad al proyecto y no usar ese tiempo para las primeras fases.
+Como posibles áreas de mejora ya comentamos que, para posibles futuras versiones, nos gustaría haber podido incluir el H10 con las estadísticas del juego que teníamos como opcional y también incluir la clase Barco dentro de la dinámica, ya que finalmente aunque la creamos no la usamos en el proyecto, aunque nuestra intención inicial era utilizarla, especialmente para poder visualizar si un barco se ha hundido Y CUÁL.
+Lo tendremos en cuenta para las posibles expansiones del proyecto.
+
+
